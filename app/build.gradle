@@ -17,12 +17,10 @@ repositories {
 
 dependencies {
     // Use JUnit test framework.
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.3.3'
+    //springboot starter test
     testImplementation libs.junit
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.3.3'
-
-    // This dependency is used by the application.
-    implementation libs.guava
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.3.3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.3.3'
 
 }
 

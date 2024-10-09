@@ -6,6 +6,9 @@ package fr.parisnanterre.PierreRayanShakirOrganization;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+//import springbootest
+import org.springframework.boot.test.context.SpringApplication;
+
 public class AppTest {
     @Test public void appHasAGreeting() {
         App classUnderTest = new App();
