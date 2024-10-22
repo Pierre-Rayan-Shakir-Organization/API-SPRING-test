@@ -8,13 +8,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(HelloController.class)
 public class HelloControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
-
     @Test
     public void testGetHello() throws Exception {
         mockMvc.perform(get("/hello")) // Simulates a GET request to /hello and checks the response
