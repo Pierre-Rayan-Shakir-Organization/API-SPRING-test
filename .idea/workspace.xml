@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="bbf4dc48-a454-479a-b85b-2b048155795c" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/app/src/test/java/fr/parisnanterre/PierreRayanShakirOrganization/HelloControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/fr/parisnanterre/PierreRayanShakirOrganization/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/fr/parisnanterre/PierreRayanShakirOrganization/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/fr/parisnanterre/PierreRayanShakirOrganization/controllers/helloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/fr/parisnanterre/PierreRayanShakirOrganization/controllers/HelloController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/test/java/fr/parisnanterre/PierreRayanShakirOrganization/AppTest.java" beforeDir="false" />
     </list>
@@ -20,6 +21,26 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="API-SPRING-test" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -61,7 +82,7 @@
   "keyToString": {
     "Gradle.HelloControllerTest.testGetHello.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/MASTER1/S1/Prog Fonctionnelle/td4/td4",
     "node.js.detected.package.eslint": "true",
@@ -253,7 +274,7 @@
       <workItem from="1728475424034" duration="8071000" />
       <workItem from="1728918860945" duration="98000" />
       <workItem from="1729581344317" duration="593000" />
-      <workItem from="1729583912224" duration="846000" />
+      <workItem from="1729583912224" duration="1331000" />
     </task>
     <servers />
   </component>
