@@ -1,3 +1,7 @@
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+
+
 FiveMusic est un projet Typescript utilisant le framework NextJS pour le frontend et NodeJS pour l'API backend. 
 
 # Pré-requis : MySQL, npm, nodeJS
