@@ -9,6 +9,8 @@
 
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
 
+[![codecov](https://codecov.io/github/Pierre-Rayan-Shakir-Organization/API-SPRING-test/branch/develop/graph/badge.svg?token=WUVB7ETPNA)](https://codecov.io/github/Pierre-Rayan-Shakir-Organization/API-SPRING-test)
+
 
 
 
