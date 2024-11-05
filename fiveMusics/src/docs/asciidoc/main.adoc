@@ -1,0 +1,84 @@
+= API Documentation
+Auteur: Pierre Rayan Shakir
+Version: 1.0
+Date: {docdate}
+
+== Introduction
+
+Ce document décrit les endpoints principaux de l'API et fournit des informations sur la configuration et l'utilisation du projet backend.
+
+== Installation
+
+Pour installer ce projet, suivez les étapes suivantes :
+
+[source,bash]
+----
+git clone https://github.com/votre-utilisateur/nom-du-projet.git
+cd nom-du-projet
+npm install
+----
+
+== Lancer l'Application
+
+Pour démarrer l'application, exécutez la commande suivante :
+
+[source,bash]
+----
+npm start
+----
+
+== Endpoints de l'API
+
+Voici la description des principaux endpoints disponibles :
+
+=== Utilisateurs
+
+* `GET /api/users`
+  **Description** : Récupère tous les utilisateurs.
+
+* `POST /api/users`
+  **Description** : Ajoute un nouvel utilisateur.
+
+=== Produits
+
+* `GET /api/products`
+  **Description** : Récupère la liste des produits.
+
+* `POST /api/products`
+  **Description** : Crée un nouveau produit.
+
+== Exemples de Requêtes
+
+.Exemple de requête pour récupérer les utilisateurs
+[source, http]
+----
+GET /api/users HTTP/1.1
+Host: localhost:3000
+----
+
+.Exemple de requête pour créer un utilisateur
+[source, json]
+----
+POST /api/users HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com"
+}
+----
+
+== Contribution
+
+Pour contribuer au projet, suivez ces étapes :
+
+1. Fork le projet
+2. Créez une branche pour vos modifications : `git checkout -b feature/nouvelle-fonctionnalite`
+3. Commitez vos changements : `git commit -m "Ajout d'une nouvelle fonctionnalité"`
+4. Poussez la branche : `git push origin feature/nouvelle-fonctionnalite`
+5. Ouvrez une pull request
+
+== Licence
+
+Ce projet est sous licence MIT. Pour plus d'informations, consultez le fichier LICENSE.
