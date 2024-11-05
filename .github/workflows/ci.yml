@@ -14,6 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    # Convertir en clone non-shallow pour les informations de "blame"
+    - name: Convert to non-shallow clone
+      run: git fetch --unshallow
+
     # Installer Java 17 pour SonarQube
     - name: Set up JDK 17
       uses: actions/setup-java@v2
@@ -30,21 +34,6 @@ jobs:
       working-directory: ./fiveMusics
       run: npm install
 
-    # Commenter ou retirer cette étape pour l'instant si les tests ne sont pas encore écrits
-    # - name: Run Tests with Coverage
-    #   working-directory: ./fiveMusic
-    #   run: npm test -- --coverage
-    #   env:
-    #     CI: true
-
-    # - name: Upload Backend Coverage to Codecov
-    #   uses: codecov/codecov-action@v3
-    #   with:
-    #     token: ${{ secrets.CODECOV_TOKEN }}
-    #     flags: backend
-    #     directory: ./fiveMusic
-
-    # SonarQube analysis for backend
     - name: SonarQube Scan Backend
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
