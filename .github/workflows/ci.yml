@@ -52,5 +52,5 @@ jobs:
         npx sonar-scanner \
           -Dsonar.projectKey=YOUR_PROJECT_KEY_backend \
           -Dsonar.organization=YOUR_ORG_NAME \
-          -Dsonar.sources=./fiveMusic \
+          -Dsonar.sources=./fiveMusics \
           -Dsonar.host.url=https://sonarcloud.io
