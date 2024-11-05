@@ -2,7 +2,6 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
 
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
 
