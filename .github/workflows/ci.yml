@@ -20,7 +20,7 @@ jobs:
         node-version: '16'
 
     - name: Install Dependencies
-      working-directory: ./fiveMusic
+      working-directory: ./fiveMusics
       run: npm install
 
     # Commenter ou retirer cette étape pour l'instant si les tests ne sont pas encore écrits
@@ -46,45 +46,4 @@ jobs:
           -Dsonar.projectKey=YOUR_PROJECT_KEY_backend \
           -Dsonar.organization=YOUR_ORG_NAME \
           -Dsonar.sources=./fiveMusic \
-          -Dsonar.host.url=https://sonarcloud.io
-
-  frontend:
-    name: Frontend Tests and Analysis
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-
-    - name: Install Dependencies
-      working-directory: ./fiveMusic-frontend
-      run: npm install
-
-    # Commenter ou retirer cette étape pour l'instant si les tests ne sont pas encore écrits
-    # - name: Run Tests with Coverage
-    #   working-directory: ./fiveMusic-frontend
-    #   run: npm test -- --coverage
-    #   env:
-    #     CI: true
-
-    # - name: Upload Frontend Coverage to Codecov
-    #   uses: codecov/codecov-action@v3
-    #   with:
-    #     token: ${{ secrets.CODECOV_TOKEN }}
-    #     flags: frontend
-    #     directory: ./fiveMusic-frontend
-
-    # SonarQube analysis for frontend
-    - name: SonarQube Scan Frontend
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        npx sonar-scanner \
-          -Dsonar.projectKey=YOUR_PROJECT_KEY_frontend \
-          -Dsonar.organization=YOUR_ORG_NAME \
-          -Dsonar.sources=./fiveMusic-frontend \
           -Dsonar.host.url=https://sonarcloud.io
