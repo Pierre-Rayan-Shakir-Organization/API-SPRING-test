@@ -17,7 +17,7 @@ app.use(cors());  // Ajout du middleware CORS
 
 app.get('/', (req : Request, res : Response) : void => {
     res.status(200).json({
-        "message" : "wsh sur l'application FIVE SONGS !"
+        "message" : "Bienvenue sur l'API de FiveMusics"
     });
 });
 
