@@ -44,8 +44,10 @@ app.get('/getRandomMusic', getRandomMusic);
 
 
 
-app.listen(PORT, () : void => {
-    console.log(`http://localhost:${PORT}`);
-});
+if (require.main === module) {
+    app.listen(PORT, (): void => {
+        console.log(`http://localhost:${PORT}`);
+    });
+}
 
 export default app;
