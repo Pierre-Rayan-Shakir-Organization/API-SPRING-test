@@ -25,9 +25,14 @@ app.get('/', (req : Request, res : Response) : void => {
 app.get('/getUsers', getAllUsers);
 app.get('/getAllOtherUsers', verifyToken, getAllOtherUsers);
 
-// auth
-app.post('/signup', verifyEmailSingup, signup);
-app.post('/login', verifyEmailLogin, verifyPassword, login);
+// auth avec middleware
+//app.post('/signup', verifyEmailSingup, signup);
+//app.post('/login', verifyEmailLogin, verifyPassword, login);
+
+// auth sans middleware
+app.post('/signup', signup);
+app.post('/login', login);
+
 
 
 // musique
@@ -42,3 +47,5 @@ app.get('/getRandomMusic', getRandomMusic);
 app.listen(PORT, () : void => {
     console.log(`http://localhost:${PORT}`);
 });
+
+export default app;
