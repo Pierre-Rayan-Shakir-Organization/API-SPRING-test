@@ -21,7 +21,7 @@
 
 FiveMusic est un projet Typescript utilisant le framework NextJS pour le frontend et NodeJS pour l'API backend. 
 
-# Pré-requis : MySQL, npm, nodeJS
+# Pré-requis : MySQL, npm, Node 22+
 
 
 
@@ -30,10 +30,10 @@ FiveMusic est un projet Typescript utilisant le framework NextJS pour le fronten
 
 Etape 1 : Cloner le projet sur votre poste local grâce à la commande ~ git clone
 
-Etape 2 : Créer une base de données MySQL nommée FiveMusics puis executer le fichier comportant les tables nécessaires. Remplacer les identifiants de votre base de données dans le ficher correspondant puis lancer la base de données.
+Etape 2 : Créer une base de données MySQL nommée **fivemusics** puis initialiser la base en insérant les tables présentes dans le fichier **database/final/v1.sql**. Se rendre ensuite dans le fichier **src/database/pool.ts** puis insérer votre identifiant et mot de passe de base de données.
 
-Etape 3 : Se rendre à la racine du répertoire FiveMusic et executer la commande ~npm install afin d'installer tout les modules nécessaires, puis ~npm start pour lancer l'API.
+Etape 3 : Se rendre à la racine du projet puis executer la commande **npm install** afin d'installer tout les modules/dépendances nécessaires, puis executer la commande **npm start**
 
-Etape 4 : Répéter l'étape 3 dans le répertoire FiveMusic_frontend
+L'API est correctement lancée (Verifiez bien que le message de Bienvenue s'affiche lorsque vous vous rendez sur localhost:3000)
 
-Etape 5 : Se rendre sur localhost://4000
+Pour profiter du projet complet (c-a-d avec l'affichage utilisateur "frontend"), je vous invite à vous rendre sur ce repository afin de le cloner dans le répertoire parent de l'API, puis de suivre les étapes de son initialisation: https://github.com/Pierre-Rayan-Shakir-Organization/Front 
