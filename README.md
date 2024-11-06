@@ -1,5 +1,22 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
+
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
+
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
+
+[![codecov](https://codecov.io/github/Pierre-Rayan-Shakir-Organization/API-SPRING-test/branch/develop/graph/badge.svg?token=WUVB7ETPNA)](https://codecov.io/github/Pierre-Rayan-Shakir-Organization/API-SPRING-test)
+
+
+
+
+
+
+
 
 
 FiveMusic est un projet Typescript utilisant le framework NextJS pour le frontend et NodeJS pour l'API backend. 
