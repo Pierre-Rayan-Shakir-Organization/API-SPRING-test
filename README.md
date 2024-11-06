@@ -65,11 +65,17 @@ Avec ces fonctionnalités, FiveMusic aspire à rassembler une communauté unie p
    ```bash
    npm install
    ```
-3. **Lancez le serveur** :
+   
+   
+3. **Dans le fichier server.ts, enlevez les commentaires pour l'authentification avec middleware et rajouter des commentaires pour l'authentification sans.**
+
+
+   
+4. **Lancez le serveur** :
    ```bash
    npm start
    ```
-4. **Vérification** :
+5. **Vérification** :
    - Rendez-vous sur [http://localhost:3000](http://localhost:3000).
    - Assurez-vous que le message de bienvenue s'affiche, indiquant que l'API est correctement lancée.
 
