@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config(); // Charger les variables d'environnement depuis le fichier .env
 
 
+
 export const pool = mysql2.createPool({
     host: "localhost",
     database: "fiveMusics",
