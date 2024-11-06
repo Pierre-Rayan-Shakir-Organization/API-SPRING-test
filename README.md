@@ -93,4 +93,3 @@ Vous pouvez maintenant utiliser le projet FiveMusic dans sa totalité avec le fr
 +++
 
 
-Lien video de présentation : https://youtu.be/OnKnxxUhlso
