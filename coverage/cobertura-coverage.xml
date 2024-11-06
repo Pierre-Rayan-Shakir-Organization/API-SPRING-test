@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage lines-valid="238" lines-covered="81" line-rate="0.3403" branches-valid="35" branches-covered="14" branch-rate="0.4" timestamp="1730845334377" complexity="0" version="0.1">
+<coverage lines-valid="240" lines-covered="83" line-rate="0.3458" branches-valid="35" branches-covered="14" branch-rate="0.4" timestamp="1730851481591" complexity="0" version="0.1">
   <sources>
     <source>D:\MASTER1\DEVOPS\API-SPRING-test</source>
   </sources>
@@ -253,7 +253,7 @@
         </class>
       </classes>
     </package>
-    <package name="src.database" line-rate="0.147" branch-rate="0">
+    <package name="src.database" line-rate="0.1714" branch-rate="0">
       <classes>
         <class name="musiqueService.ts" filename="src\database\musiqueService.ts" line-rate="0.24" branch-rate="1">
           <methods>
@@ -316,6 +316,8 @@
           </methods>
           <lines>
             <line number="1" hits="1" branch="false"/>
+            <line number="2" hits="1" branch="false"/>
+            <line number="4" hits="1" branch="false"/>
             <line number="7" hits="1" branch="false"/>
           </lines>
         </class>
