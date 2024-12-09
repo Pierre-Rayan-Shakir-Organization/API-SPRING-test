@@ -6,6 +6,7 @@ import cors from 'cors';
 import { getAllOtherUsers, getAllUsers } from './controleurs/utilisateurs';
 import morgan from 'morgan';
 import bodyParser from 'body-parser'; // si vous utilisez bodyParser
+import UtilisateurService from './database/utilisateurService';
 
 
 const app: Express = express();
@@ -25,8 +26,14 @@ app.get('/', (req: Request, res: Response): void => {
 });
 
 // Utilisateurs
-app.get('/getUsers', (req: Request, res: Response) => {
-  res.json([{ name: 'User1' }, { name: 'User2' }]); // Exemple de réponse
+app.get('/getUsers', async (req: Request, res: Response) => {
+    const utilisateurService = new UtilisateurService();
+    try {
+      const users = await utilisateurService.getAllUsers();
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(500).json({ message: "Erreur serveur", error });
+    }
 });
 
 app.get('/getAllOtherUsers', verifyToken, getAllOtherUsers);
