@@ -20,17 +20,36 @@ export const signup = async (req : Request, res : Response) : Promise<void> => {
     }
 }
 
-export const login = async (req : Request, res : Response) : Promise<void> => {
-    const utilisateurService : UtilisateurService = new UtilisateurService();
+export const login = async (req: Request, res: Response): Promise<void> => {
+    const utilisateurService = new UtilisateurService();
     try {
-        const playload : Omit<Utilisateur, "password"> = (req as any).user;
-        const token : string = jwt.sign(playload, secretKey, {expiresIn : "1h"});
+        const { email, password } = req.body;
+
+        console.log('Requête reçue:', { email, password });
+
+        const user = await utilisateurService.getUserByEmail(email);
+        console.log('Utilisateur trouvé:', user);
+
+        if (!user) {
+            res.status(401).json({ message: 'Le mail n\'éxiste pas' });
+            return;
+        }
+
+        const isPasswordValid = await utilisateurService.verifyPassword(email, password);
+        console.log('Mot de passe valide:', isPasswordValid);
+
+        if (!isPasswordValid) {
+            res.status(401).json({ message: 'mot de passe incorrect' });
+            return;
+        }
+
+        const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: '1h' });
         res.status(200).json({
-            "message" : "Utilisateur bien connécté !",
-            "token" : token
+            message: 'Utilisateur bien connécté !',
+            token,
         });
-    } catch(error) {
-        res.status(404).json(error);
-        console.log(error);
+    } catch (error) {
+        console.log('Erreur serveur:', error);
+        res.status(500).json({ message: 'Erreur interne du serveur' });
     }
-}
+};
