@@ -30,12 +30,12 @@ app.get('/getUsers', getAllUsers);
 app.get('/getAllOtherUsers', verifyToken, getAllOtherUsers);
 
 // auth avec middleware
-//app.post('/signup', verifyEmailSingup, signup);
-//app.post('/login', verifyEmailLogin, verifyPassword, login);
+app.post('/signup', verifyEmailSingup, signup);
+app.post('/login', verifyEmailLogin, verifyPassword, login);
 
 // auth sans middleware
-app.post('/signup', signup);
-app.post('/login', login);
+// app.post('/signup', signup);
+// app.post('/login', login);
 
 
 

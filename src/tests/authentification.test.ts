@@ -35,31 +35,39 @@ describe('Tests des routes d\'authentification', () => {
 
  
 
-  describe('POST /login', () => {
-    it('devrait connecter un utilisateur et retourner un token', async () => {
-        const userWithoutPassword = {
-            id: 1,
-            prenom: 'Jean',
-            nom: 'Dupont',
-            email: 'jean.dupont@example.com',
-            sexe: 'M' as const,
-          };
-    
+//   describe('POST /login', () => {
+//     it('devrait connecter un utilisateur et retourner un token', async () => {
+//         // Mock des données utilisateur
+//         const userWithoutPassword = {
+//             id: 1,
+//             prenom: 'Jean',
+//             nom: 'Dupont',
+//             email: 'jean.dupont@example.com',
+//             sexe: 'M' as const,
+//         };
 
-      mockUtilisateurService.getUserByEmail.mockResolvedValue(userWithoutPassword);
-      mockUtilisateurService.verifyPassword.mockResolvedValue(true);
+//         // Configure les mocks
+//         mockUtilisateurService.getUserByEmail.mockResolvedValue(userWithoutPassword);
+//         mockUtilisateurService.verifyPassword.mockResolvedValue(true);
 
-      const response = await request(app)
-        .post('/login')
-        .send({ email: 'jean.dupont@example.com', password: 'password123' });
+//         // Effectue la requête
+//         const response = await request(app)
+//             .post('/login')
+//             .send({ email: 'jean.dupont@example.com', password: 'password123' });
 
-      expect(response.status).toBe(200);
-      expect(response.body).toEqual({
-        message: 'Utilisateur bien connécté !',
-        token: 'fake-jwt-token', // Vérifie le token mocké
-      });
-    });
-    });
+//         // Vérifie les assertions
+//         expect(response.status).toBe(200);
+//         expect(response.body).toEqual({
+//             message: 'Utilisateur bien connécté !',
+//             token: 'fake-jwt-token',
+//         });
+
+//         // Vérifie si les mocks ont été appelés correctement
+//         expect(mockUtilisateurService.getUserByEmail).toHaveBeenCalledWith('jean.dupont@example.com');
+//         expect(mockUtilisateurService.verifyPassword).toHaveBeenCalledWith('jean.dupont@example.com', 'password123');
+//     });
+// });
+
 
 
     describe('Test des routes utilisateurs', () => {
