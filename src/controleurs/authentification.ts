@@ -4,21 +4,22 @@ import {Request, Response} from 'express';
 import jwt from 'jsonwebtoken';
 import { secretKey } from "../secretKey";
 
-export const signup = async (req : Request, res : Response) : Promise<void> => {
-    const utilisateurService : UtilisateurService = new UtilisateurService();
+export const signup = async (req: Request, res: Response): Promise<void> => {
+    const utilisateurService: UtilisateurService = new UtilisateurService();
     try {
-        const user : Utilisateur = (req as any).user as Utilisateur;
+        const user: Utilisateur = req.body; // Utilisation de req.body
         await utilisateurService.createUser(user);
-        const userFromDataBase : Omit<Utilisateur, "password"> = await utilisateurService.getUserByEmail(user.email);
-        res.status(200).json({
-            "message" : "Utilisateur bien inscrit dans la base de données",
-            "utilisateur" : userFromDataBase
+
+        const userFromDataBase: Omit<Utilisateur, "password"> = await utilisateurService.getUserByEmail(user.email);
+        res.status(201).json({
+            message: "Utilisateur bien inscrit dans la base de données",
+            utilisateur: userFromDataBase
         });
-    } catch(error) {
-        res.status(401).json(error);
-        console.log(error);
+    } catch (error) {
+        res.status(500).json({ message: "Erreur interne du serveur", error });
     }
-}
+};
+
 
 export const login = async (req: Request, res: Response): Promise<void> => {
     const utilisateurService = new UtilisateurService();
