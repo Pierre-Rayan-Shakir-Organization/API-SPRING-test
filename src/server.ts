@@ -6,6 +6,8 @@ import { addMusic, deleteMusic, getMusic, getMusicsByUserId, getRandomMusic } fr
 import cors from 'cors';
 import { getAllOtherUsers, getAllUsers } from './controleurs/utilisateurs';
 import morgan from 'morgan';
+import { createProfile, updateProfile, getProfile } from './controleurs/utilisateurs';
+import { upload } from './middlewares/uploadMiddleware';
 
 
 
@@ -32,11 +34,6 @@ app.get('/getAllOtherUsers', verifyToken, getAllOtherUsers);
 // auth avec middleware
 app.post('/signup', verifyEmailSingup, signup);
 app.post('/login', verifyEmailLogin, verifyPassword, login);
-
-// auth sans middleware
-// app.post('/signup', signup);
-// app.post('/login', login);
-
 
 
 // musique
@@ -73,5 +70,14 @@ if (require.main === module) {
         console.log(`http://localhost:${PORT}`);
     });
 }
+
+// Créer un profil
+app.post('/profile', upload.single('photo_profil'), createProfile);
+
+// Modifier un profil (authentifié)
+app.put('/profile', verifyToken, upload.single('photo_profil'), updateProfile);
+
+// Récupérer un profil utilisateur par ID
+app.get('/profile/:id', getProfile);
 
 export default app;
