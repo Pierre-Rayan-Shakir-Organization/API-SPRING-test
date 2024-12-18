@@ -1,6 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
 
 [![Run tests and upload coverage](https://github.com/Pierre-Rayan-Shakir-Organization/API-SPRING-test/actions/workflows/code-cov.yml/badge.svg)](https://github.com/Pierre-Rayan-Shakir-Organization/API-SPRING-test/actions/workflows/code-cov.yml)
 
