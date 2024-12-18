@@ -1,4 +1,4 @@
-name: build adocs
+name: build adocs to PDF
 
 on:
   push:
@@ -6,29 +6,31 @@ on:
       - main
 
 jobs:
-  adoc_build:
+  adoc_build_pdf:
     runs-on: ubuntu-latest
-    name: Build AsciiDoc to HTML
+    name: Build AsciiDoc to PDF
     steps:
       # 1. Récupérer le code source
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Construire le fichier HTML avec Asciidoctor
-      - name: Build AsciiDoc
-        id: adocbuild
-        uses: tonynv/asciidoctor-action@master
-        with:
-          program: "asciidoctor -D docs --backend=html5 -o main.html src/asciidoc/main.adoc"
+      # 2. Installer Asciidoctor et Asciidoctor-PDF
+      - name: Install Asciidoctor-PDF
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ruby
+          gem install asciidoctor asciidoctor-pdf
 
-      # 3. Imprimer l'heure d'exécution
-      - name: Print execution time
-        run: echo "Time ${{ steps.adocbuild.outputs.time }}"
+      # 3. Générer le PDF
+      - name: Generate PDF from AsciiDoc
+        run: |
+          mkdir -p output
+          asciidoctor-pdf -o output/documentation.pdf src/asciidoc/main.adoc
 
-      # 4. Déployer vers GitHub Pages
-      - name: Deploy docs to ghpages
+      # 4. Déployer le PDF sur GitHub Pages
+      - name: Deploy PDF to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./docs
+          publish_dir: ./output
