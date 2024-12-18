@@ -1,84 +1,126 @@
-= API Documentation
+= Documentation API FiveMusics
 Auteur: Pierre Rayan Shakir
-Version: 1.0
+Version: 1.1.0
 Date: {docdate}
 
 == Introduction
 
-Ce document décrit les endpoints principaux de l'API et fournit des informations sur la configuration et l'utilisation du projet backend.
+Ce document décrit les nouvelles fonctionnalités, endpoints, et améliorations implémentés dans le projet FiveMusics.
 
-== Installation
+== Changelog
 
-Pour installer ce projet, suivez les étapes suivantes :
+=== *Version 0.3 - 2024-12-18*
 
-[source,bash]
-----
-git clone https://github.com/votre-utilisateur/nom-du-projet.git
-cd nom-du-projet
-npm install
-----
+- Ajout de l'endpoint GET /getRandomMusic pour récupérer une musique aléatoire.
+- Intégration de l'API *Deezer* pour enrichir les musiques avec des informations supplémentaires (image, audio).
+- Affichage des musiques sous forme de *cartes interactives* côté frontend.
+- Gestion améliorée des erreurs.
+- Activation de CORS dans le backend pour corriger les problèmes d'accès.
+- Ajout de la création d'un profil pour chaque utilisateur
+- Fonctionnalité de découverte aléatoire d'une musique aimé par un autre utilisateur
 
-== Lancer l'Application
+=== *Version 0.2 - 2024-11-21*
 
-Pour démarrer l'application, exécutez la commande suivante :
+- Initialisation du projet backend et frontend.
+- Système d'*authentification JWT*.
+- Création des endpoints CRUD de gestion des musiques.
 
-[source,bash]
-----
-npm start
-----
+---
 
-== Endpoints de l'API
+== Fonctionnalités Principales
 
-Voici la description des principaux endpoints disponibles :
+=== 1. *Authentification avec JWT*
 
-=== Utilisateurs
+L'API utilise des *JSON Web Tokens* pour sécuriser ses endpoints.  
+Les endpoints protégés nécessitent un header *Authorization* valide.
 
-* `GET /api/users`
-  **Description** : Récupère tous les utilisateurs.
-
-* `POST /api/users`
-  **Description** : Ajoute un nouvel utilisateur.
-
-=== Produits
-
-* `GET /api/products`
-  **Description** : Récupère la liste des produits.
-
-* `POST /api/products`
-  **Description** : Crée un nouveau produit.
-
-== Exemples de Requêtes
-
-.Exemple de requête pour récupérer les utilisateurs
+.Exemple de requête pour s'authentifier
 [source, http]
 ----
-GET /api/users HTTP/1.1
-Host: localhost:3000
-----
-
-.Exemple de requête pour créer un utilisateur
-[source, json]
-----
-POST /api/users HTTP/1.1
+POST /login HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "email": "john.doe@example.com"
+  "email": "exemple@email.com",
+  "password": "123456"
 }
 ----
 
-== Contribution
+.Exemple de réponse
+[source, json]
+----
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+----
 
-Pour contribuer au projet, suivez ces étapes :
+---
 
-1. Fork le projet
-2. Créez une branche pour vos modifications : `git checkout -b feature/nouvelle-fonctionnalite`
-3. Commitez vos changements : `git commit -m "Ajout d'une nouvelle fonctionnalité"`
-4. Poussez la branche : `git push origin feature/nouvelle-fonctionnalite`
-5. Ouvrez une pull request
+=== 2. *Endpoint : Récupérer une musique aléatoire*
 
-== Licence
+Un endpoint permet de récupérer une musique aléatoire avec les informations associées à l'utilisateur.
 
-Ce projet est sous licence MIT. Pour plus d'informations, consultez le fichier LICENSE.
+.Endpoint
+[source, http]
+----
+GET /getRandomMusic HTTP/1.1
+Host: localhost:3000
+----
+
+.Exemple de réponse
+[source, json]
+----
+{
+  "musique_id": 7,
+  "id_utilisateur": 8,
+  "artiste": "Sevdaliza",
+  "titre": "Alibi",
+  "url_preview": "https://example.com/preview.mp3",
+  "url_cover_album_big": "https://example.com/cover.jpg",
+  "prenom": "Jean",
+  "nom": "Reno"
+}
+----
+
+---
+
+=== 3. *Intégration avec l'API Deezer*
+
+L'API utilise l'*API Deezer* pour enrichir les données des musiques.
+
+- Recherche basée sur l’artiste et le titre.
+- Retour des informations Deezer : extrait audio, image de l’album.
+
+.Exemple d’appel à Deezer
+[source, http]
+----
+GET https://api.deezer.com/search?q=artist:"Sevdaliza" track:"Alibi"
+----
+
+.Exemple de réponse
+[source, json]
+----
+{
+  "data": [
+    {
+      "artist": { "name": "Sevdaliza" },
+      "title": "Alibi",
+      "preview": "https://example.com/audio.mp3",
+      "album": { "cover_big": "https://example.com/cover.jpg" }
+    }
+  ]
+}
+----
+
+---
+
+=== 4. *Affichage des cartes de musiques interactives*
+
+Les musiques récupérées sont affichées sous forme de *cartes interactives* côté frontend.
+
+- Affichage de l’image de couverture, du nom de l’artiste, et du titre.
+- Bouton *Play* pour écouter un extrait audio.
+- Bouton pour afficher une *nouvelle musique*.
+
+.Exemple de rendu visuel
