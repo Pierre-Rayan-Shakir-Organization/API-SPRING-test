@@ -8,6 +8,8 @@ CREATE TABLE utilisateur (
     password VARCHAR(100) NOT NULL,
     sexe ENUM('M', 'F') NOT NULL,
     date_inscription TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    description TEXT NULL,
+    photo_profil VARCHAR(255) NULL, 
     PRIMARY KEY (id)
 );
 

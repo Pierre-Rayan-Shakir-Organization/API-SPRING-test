@@ -3,14 +3,17 @@ import { pool } from "./pool";
 type sexe = "M" | "F"
 
 export interface Utilisateur {
-    id? : number,
-    prenom : string,
-    nom : string,
-    email : string,
-    password : string,
-    sexe : sexe,
-    date? : string
+    id?: number;
+    prenom: string;
+    nom: string;
+    email: string;
+    password: string;
+    sexe: "M" | "F";
+    date?: string;
+    description?: string;      
+    photo_profil?: string;     
 }
+
 
 export interface UtilisateurConnexion {
     email : string,
@@ -28,27 +31,52 @@ export interface UtilisateurConnexion {
 */
 export default class UtilisateurService {
 
-    async createUser(user : Utilisateur) : Promise<void> {
-        const query : string = "INSERT INTO utilisateur (prenom, nom, email, password, sexe) VALUES (?, ?, ?, ?, ?)";
+    async createUser(user: Utilisateur): Promise<void> {
+        const query = `
+            INSERT INTO utilisateur (prenom, nom, email, password, sexe, description, photo_profil)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
         try {
-            await pool.execute(query, [user.prenom, user.nom, user.email, user.password, user.sexe]);
-        } catch (error) {throw error;}
+            await pool.execute(query, [
+                user.prenom,
+                user.nom,
+                user.email,
+                user.password,
+                user.sexe,
+                user.description || null,
+                user.photo_profil || null
+            ]);
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async getUserById(id : number) : Promise<Omit<Utilisateur, "password">> {
-        const query : string = "SELECT id, prenom, nom, email, sexe, date_inscription FROM utilisateur WHERE id = ?";
+    async getUserById(id: number): Promise<Omit<Utilisateur, "password">> {
+        const query: string = `
+            SELECT id, prenom, nom, email, sexe, date_inscription, description, photo_profil 
+            FROM utilisateur 
+            WHERE id = ?
+        `;
         try {
-            const [result] : [any[], any] = await pool.execute(query, [id]);
+            const [result]: [any[], any] = await pool.execute(query, [id]);
             return result[0] as Omit<Utilisateur, "password">;
-        } catch (error) {throw error;}
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async getUserByEmail(email : string) : Promise<Omit<Utilisateur, "password">> {
-        const query : string = "SELECT id, prenom, nom, email, sexe, date_inscription FROM utilisateur WHERE email = ?";
+    async getUserByEmail(email: string): Promise<Omit<Utilisateur, "password">> {
+        const query: string = `
+            SELECT id, prenom, nom, email, sexe, date_inscription, description, photo_profil 
+            FROM utilisateur 
+            WHERE email = ?
+        `;
         try {
-            const [result] : [any[], any] = await pool.execute(query, [email]);
+            const [result]: [any[], any] = await pool.execute(query, [email]);
             return result[0] as Omit<Utilisateur, "password">;
-        } catch (error) {throw error;}
+        } catch (error) {
+            throw error;
+        }
     }
 
     async verifyEmail(email : string) : Promise<boolean> {
@@ -93,6 +121,16 @@ export default class UtilisateurService {
             const users : [any[], any] =  await pool.execute(query, [id]);
             return users as Omit<Utilisateur, "password">[];
         } catch(error) {throw error;}
+    }
+    async updateProfile(id: number, user: any): Promise<void> {
+        const query = `
+            UPDATE utilisateur
+            SET prenom = ?, nom = ?, email = ?, sexe = ?, description = ?, photo_profil = ?
+            WHERE id = ?
+        `;
+        await pool.execute(query, [
+            user.prenom, user.nom, user.email, user.sexe, user.description, user.photo_profil, id
+        ]);
     }
 
 }

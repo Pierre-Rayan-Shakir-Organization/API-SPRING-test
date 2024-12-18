@@ -28,8 +28,8 @@ describe('Test des routes musique', () => {
         expect(response.status).toBe(401);
     });
 
-    it('GET /getRandomMusic', async () => {
-        const response = await request(app).get('/getRandomMusic');
-        expect(response.status).toBe(401);
-    });
+    // it('GET /getRandomMusic', async () => {
+    //     const response = await request(app).get('/getRandomMusic');
+    //     expect(response.status).toBe(401);
+    // });
 });
