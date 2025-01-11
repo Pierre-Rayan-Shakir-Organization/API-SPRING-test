@@ -1,4 +1,4 @@
-name: build adocs to PDF
+name: Build AsciiDoc to PDF
 
 on:
   push:
@@ -10,28 +10,27 @@ jobs:
     runs-on: ubuntu-latest
     name: Build AsciiDoc to PDF
     steps:
-      # 1. Récupérer le code source
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Installer Asciidoctor-PDF
+      # Step 2: Setup Ruby and Gems
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+      
       - name: Install Asciidoctor-PDF
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ruby
-          gem install --user-install asciidoctor asciidoctor-pdf
+        run: gem install asciidoctor asciidoctor-pdf
 
-      # 3. Configurer PATH pour les gems utilisateur
-      - name: Update PATH for Ruby Gems
-        run: echo 'export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"' >> $GITHUB_ENV
-
-      # 4. Générer le PDF
+      # Step 3: Generate PDF from AsciiDoc
       - name: Generate PDF from AsciiDoc
         run: |
           mkdir -p output
           asciidoctor-pdf -o output/documentation.pdf src/asciidoc/main.adoc
 
-      # 5. Déployer le PDF sur GitHub Pages
+      # Step 4: Deploy PDF to GitHub Pages
       - name: Deploy PDF to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
