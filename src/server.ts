@@ -8,7 +8,12 @@ import { getAllOtherUsers, getAllUsers } from './controleurs/utilisateurs';
 import morgan from 'morgan';
 import { createProfile, updateProfile, getProfile } from './controleurs/utilisateurs';
 import { upload } from './middlewares/uploadMiddleware';
-
+import { 
+        followUser, unfollowUser,
+        acceptFollow, rejectFollowRequest, getFollowers, 
+        getFollowing, searchUsers, 
+        countFollowers, countFollowing
+            } from './controleurs/followers';
 
 
 const app : Express = express();
@@ -27,6 +32,8 @@ app.get('/', (req : Request, res : Response) : void => {
     });
 });
 
+
+
 // utilisateurs
 app.get('/getUsers', getAllUsers);
 app.get('/getAllOtherUsers', verifyToken, getAllOtherUsers);
@@ -42,6 +49,19 @@ app.get('/getMusic', verifyToken, getMusic);
 app.delete('/deleteMusic/:idMusic', verifyToken, deleteMusic);
 app.get('/getMusicsByUserId/:idUser', verifyToken, getMusicsByUserId);
 app.get('/getRandomMusic', getRandomMusic);
+
+// followers
+app.post('/follow/:followingId', verifyToken, followUser); // Suivre un utilisateur
+app.delete('/unfollow/:followingId', verifyToken, unfollowUser); // Annuler le suivi d'un utilisateur
+app.put('/acceptFollow/:followerId', verifyToken, acceptFollow); // Accepter une demande de suivi
+app.delete('/rejectFollow/:followerId', verifyToken, rejectFollowRequest); // Refuser une demande de suivi
+app.get('/getFollowers', verifyToken, getFollowers); // Obtenir la liste des followers
+app.get('/getFollowing', verifyToken, getFollowing); // Obtenir la liste des utilisateurs suivis
+app.get('/searchUsers', verifyToken, searchUsers); // Rechercher des utilisateurs
+app.get('/countFollowers', verifyToken, countFollowers); // Compter les followers
+app.get('/countFollowing', verifyToken, countFollowing); // Compter les utilisateurs suivis
+
+
 
 app.get('/api/deezer', async (req: Request, res: Response) => {
     console.log(req.query)
