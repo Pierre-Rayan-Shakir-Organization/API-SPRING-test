@@ -122,5 +122,3 @@ Les musiques récupérées sont affichées sous forme de *cartes interactives* c
 - Affichage de l’image de couverture, du nom de l’artiste, et du titre.
 - Bouton *Play* pour écouter un extrait audio.
 - Bouton pour afficher une *nouvelle musique*.
-
-.Exemple de rendu visuel
