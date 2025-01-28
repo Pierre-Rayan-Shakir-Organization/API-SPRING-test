@@ -2,7 +2,7 @@ import express, {Express, Request, Response, NextFunction} from 'express';
 import axios from 'axios';
 import { verifyEmailLogin, verifyEmailSingup, verifyPassword, verifyToken } from './middlewares/authentification';
 import { login, signup } from './controleurs/authentification';
-import { addMusic, deleteMusic, getMusic, getMusicsByUserId, getRandomMusic } from './controleurs/musique';
+import { addMusic, deleteMusic, getMusic, getMusicsByUserId, getRandomMusic, saveTopFive, getTopFive} from './controleurs/musique';
 import cors from 'cors';
 import { getAllOtherUsers, getAllUsers } from './controleurs/utilisateurs';
 import morgan from 'morgan';
@@ -79,5 +79,7 @@ app.put('/profile', verifyToken, upload.single('photo_profil'), updateProfile);
 
 // Récupérer un profil utilisateur par ID
 app.get('/profile/:id', getProfile);
+app.post('/saveTopFive', verifyToken, saveTopFive);
+app.get('/getTopFive', verifyToken, getTopFive);
 
 export default app;

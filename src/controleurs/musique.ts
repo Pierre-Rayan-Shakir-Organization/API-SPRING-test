@@ -78,3 +78,54 @@ export const getRandomMusic = async (req : Request, res : Response) : Promise<vo
     }
     catch(error) {res.status(401).json(error);}
 }
+
+export const saveTopFive = async (req: Request, res: Response): Promise<void> => {
+    const musiqueService = new MusiqueService();
+
+    try {
+        const user = (req as any).user;
+        const userId = user.id;
+        const { topFive } = req.body;
+
+        if (!Array.isArray(topFive)) {
+            res.status(400).json({ message: "Top 5 non valide." });
+            return;
+        }
+
+        await musiqueService.saveTopFive(userId, topFive);
+
+        res.status(200).json({
+            message: "Top 5 enregistré avec succès.",
+        });
+    } catch (error) {
+        console.error("Erreur lors de l'enregistrement du Top 5 :", error);
+        res.status(500).json({
+            message: "Erreur interne lors de l'enregistrement du Top 5.",
+        });
+    }
+};
+
+export const getTopFive = async (req: Request, res: Response): Promise<void> => {
+    const musiqueService = new MusiqueService();
+  
+    try {
+      const user = (req as any).user; // Récupère l'utilisateur connecté depuis le token
+      if (!user) {
+        res.status(401).json({ error: "Utilisateur non authentifié." });
+        return;
+      }
+  
+      const userId = user.id;
+      const topFive = await musiqueService.getTopFiveByUserId(userId); // Appelle la méthode dans le service
+  
+      res.status(200).json({
+        message: "Top 5 récupéré avec succès.",
+        topFive,
+      });
+    } catch (error) {
+      console.error("Erreur lors de la récupération du Top 5 :", error);
+      res.status(500).json({
+        error: "Erreur interne lors de la récupération du Top 5.",
+      });
+    }
+  };

@@ -91,5 +91,59 @@ export default class MusiqueService {
             return result[0] as MusiqueAndUtilisateur;
         } catch(error) {throw error;}
     }
+    async saveTopFive(userId: number, topFive: any[]): Promise<void> {
+        const deleteQuery = `
+            DELETE FROM top_five WHERE id_utilisateur = ?
+        `;
+        const insertQuery = `
+            INSERT INTO top_five (id_utilisateur, id_musique, ordre) 
+            VALUES (?, ?, ?)
+        `;
+        const connection = await pool.getConnection();
+    
+        try {
+            // Supprimez les anciens enregistrements
+            await connection.execute(deleteQuery, [userId]);
+    
+            // Ajoutez les nouveaux enregistrements
+            const insertPromises = topFive
+                .filter((music) => music !== null) // Exclut les emplacements vides
+                .map((music, index) =>
+                    connection.execute(insertQuery, [userId, music.id, index])
+                );
+            await Promise.all(insertPromises);
+        } catch (error) {
+            throw error;
+        } finally {
+            connection.release();
+        }
+    }
+    async getTopFiveByUserId(userId: number): Promise<any[]> {
+        const query = `
+          SELECT 
+            m.id AS musique_id, 
+            m.id_utilisateur, 
+            m.artiste, 
+            m.titre, 
+            m.url_preview, 
+            m.url_cover_album_big, 
+            tf.ordre
+          FROM 
+            top_five tf
+          JOIN 
+            musique m ON tf.id_musique = m.id
+          WHERE 
+            tf.id_utilisateur = ?
+          ORDER BY 
+            tf.ordre ASC;
+        `;
+      
+        try {
+          const [result] = await pool.execute(query, [userId]);
+          return result as any[]; // Retourne les musiques du Top 5 avec l'ordre
+        } catch (error) {
+          throw error;
+        }
+      }
 
 }
