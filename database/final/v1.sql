@@ -35,3 +35,16 @@ CREATE TABLE Followers (
     FOREIGN KEY (follower_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
     FOREIGN KEY (following_id) REFERENCES utilisateur(id) ON DELETE CASCADE
 );
+
+CREATE TABLE music_likes (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    music_id INT NOT NULL,
+    liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, music_id),
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id),
+    FOREIGN KEY (music_id) REFERENCES musiques(id)
+);
+
+ALTER TABLE musiques ADD COLUMN likes_count INT DEFAULT 0;
+
