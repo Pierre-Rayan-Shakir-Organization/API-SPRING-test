@@ -50,19 +50,21 @@ export const createProfile = async (req: Request, res: Response) => {
 export const updateProfile = async (req: Request, res: Response) => {
     try {
         const { id } = (req as any).user; // Récupérer l'ID utilisateur via le token
-        const { prenom, nom, email, sexe, description, photo_profil } = req.body;
+        const { description, photo_profil } = req.body;
 
+        if (!description && !photo_profil) {
+            return res.status(400).json({ message: "Aucun champ à mettre à jour." });
+        }
+
+        // Mettre à jour uniquement les champs fournis
         await utilisateurService.updateProfile(id, {
-            prenom,
-            nom,
-            email,
-            sexe,
             description: description || null,
             photo_profil: photo_profil || null,
         });
 
         res.status(200).json({ message: "Profil mis à jour avec succès !" });
     } catch (error) {
+        console.error("Erreur lors de la mise à jour du profil :", error);
         res.status(500).json({ message: "Erreur lors de la mise à jour du profil", error });
     }
 };
@@ -76,6 +78,22 @@ export const getProfile = async (req: Request, res: Response) => {
         }
 
         res.status(200).json({ profil: user });
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la récupération du profil", error });
+    }
+};
+
+export const getCurrentUserProfile = async (req: Request, res: Response) => {
+    try {
+        const user = (req as any).user; // L'utilisateur connecté (via token middleware)
+        const id = user.id;
+
+        const userProfile = await utilisateurService.getUserById(id);
+        if (!userProfile) {
+            return res.status(404).json({ message: "Utilisateur non trouvé" });
+        }
+
+        res.status(200).json({ profil: userProfile });
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la récupération du profil", error });
     }

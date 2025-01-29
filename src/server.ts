@@ -6,7 +6,7 @@ import { addMusic, deleteMusic, getMusic, getMusicsByUserId, getRandomMusic, sav
 import cors from 'cors';
 import { getAllOtherUsers, getAllUsers } from './controleurs/utilisateurs';
 import morgan from 'morgan';
-import { createProfile, updateProfile, getProfile } from './controleurs/utilisateurs';
+import { createProfile, updateProfile, getProfile, getCurrentUserProfile } from './controleurs/utilisateurs';
 import { upload } from './middlewares/uploadMiddleware';
 
 
@@ -76,6 +76,8 @@ app.post('/profile', upload.single('photo_profil'), createProfile);
 
 // Modifier un profil (authentifié)
 app.put('/profile', verifyToken, upload.single('photo_profil'), updateProfile);
+app.get('/profile', verifyToken, getCurrentUserProfile);
+
 
 // Récupérer un profil utilisateur par ID
 app.get('/profile/:id', getProfile);
