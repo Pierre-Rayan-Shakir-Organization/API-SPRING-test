@@ -8,7 +8,7 @@ import { getAllOtherUsers, getAllUsers } from './controleurs/utilisateurs';
 import morgan from 'morgan';
 import { createProfile, updateProfile, getProfile } from './controleurs/utilisateurs';
 import { upload } from './middlewares/uploadMiddleware';
-
+import { likeMusic, getPopularMusic } from './controleurs/musicLikesController';
 
 
 const app : Express = express();
@@ -42,6 +42,12 @@ app.get('/getMusic', verifyToken, getMusic);
 app.delete('/deleteMusic/:idMusic', verifyToken, deleteMusic);
 app.get('/getMusicsByUserId/:idUser', verifyToken, getMusicsByUserId);
 app.get('/getRandomMusic', getRandomMusic);
+
+// **Nouvelles Routes pour les Likes**
+app.post('/likeMusic/:musicId', verifyToken, likeMusic);
+app.get('/popularMusic', getPopularMusic);
+
+
 
 app.get('/api/deezer', async (req: Request, res: Response) => {
     console.log(req.query)
