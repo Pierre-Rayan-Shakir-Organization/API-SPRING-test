@@ -50,7 +50,12 @@ export const createProfile = async (req: Request, res: Response) => {
 export const updateProfile = async (req: Request, res: Response) => {
     try {
         const { id } = (req as any).user; // Récupérer l'ID utilisateur via le token
-        const { description, photo_profil } = req.body;
+        const { description } = req.body;
+        let photo_profil = req.body.photo_profil || null;
+
+        if (req.file) {
+            photo_profil = `/uploads/${req.file.filename}`; // Définir l'URL du fichier uploadé
+        }
 
         if (!description && !photo_profil) {
             return res.status(400).json({ message: "Aucun champ à mettre à jour." });

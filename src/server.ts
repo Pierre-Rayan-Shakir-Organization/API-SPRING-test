@@ -9,6 +9,10 @@ import morgan from 'morgan';
 import { createProfile, updateProfile, getProfile, getCurrentUserProfile } from './controleurs/utilisateurs';
 import { upload } from './middlewares/uploadMiddleware';
 import { likeMusic, getPopularMusic } from './controleurs/musicLikesController';
+import UtilisateurService from './database/utilisateurService';
+import path from 'path';
+
+
 
 
 const app : Express = express();
@@ -21,6 +25,11 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes autorisées
     allowedHeaders: ['Content-Type', 'Authorization'], // En-têtes autorisés
 }));
+
+const uploadsPath = path.resolve(__dirname, "../uploads"); // 🔥 On remonte d'un niveau pour éviter `src/`
+console.log("🟢 Dossier uploads servi depuis :", uploadsPath);
+app.use("/uploads", express.static(uploadsPath));
+
 app.get('/', (req : Request, res : Response) : void => {
     res.status(200).json({
         "message" : "Bienvenue sur l'API de FiveMusics"
@@ -78,7 +87,8 @@ if (require.main === module) {
 }
 
 // Créer un profil
-app.post('/profile', upload.single('photo_profil'), createProfile);
+app.post('/profile', createProfile);
+
 
 // Modifier un profil (authentifié)
 app.put('/profile', verifyToken, upload.single('photo_profil'), updateProfile);
@@ -89,5 +99,32 @@ app.get('/profile', verifyToken, getCurrentUserProfile);
 app.get('/profile/:id', getProfile);
 app.post('/saveTopFive', verifyToken, saveTopFive);
 app.get('/getTopFive', verifyToken, getTopFive);
+
+app.post("/profile/photo", verifyToken, upload.single("photo_profil"), async (req: Request, res: Response) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "Aucune image reçue" });
+        }
+
+        const userId = (req as any).user?.id; // 🔍 Assure-toi que `user.id` est bien récupéré
+        if (!userId) {
+            return res.status(401).json({ message: "Utilisateur non authentifié" });
+        }
+
+        const photoUrl = `/uploads/${req.file.filename}`; // ✅ Stockage de l'image
+
+        // ✅ Mise à jour de la base de données
+        const utilisateurService = new UtilisateurService();
+        await utilisateurService.updateProfile(userId, { photo_profil: photoUrl });
+
+        res.json({ message: "Photo mise à jour avec succès", photoUrl });
+    } catch (error) {
+        console.error("🔴 Erreur lors de l'upload :", error);
+        res.status(500).json({ message: "Erreur lors de l'upload de la photo" });
+    }
+});
+
+
+
 
 export default app;
