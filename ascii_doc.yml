@@ -1,14 +1,14 @@
-name: Build and Attach PDF to Release
+name: Build AsciiDoc to PDF
 
 on:
   push:
-    tags:
-      - "v*.*.*"  
+    branches:
+      - main
 
 jobs:
-  build_pdf:
+  adoc_build_pdf:
     runs-on: ubuntu-latest
-    name: Build and Attach Documentation PDF
+    name: Build AsciiDoc to PDF
     steps:
       # Step 1: Checkout code
       - name: Checkout code
@@ -30,10 +30,13 @@ jobs:
           mkdir -p docs
           asciidoctor-pdf -o docs/documentation.pdf src/asciidoc/main.adoc
 
-      # Step 5: Upload PDF to GitHub Release
-      - name: Upload PDF to Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: docs/documentation.pdf 
+      # Step 4: Deploy PDF to GitHub Pages
+      - name: Commit PDF to main branch
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add docs/documentation.pdf
+          git commit -m "📄 Mise à jour de la documentation PDF"
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
