@@ -12,9 +12,10 @@ import {
         followUser, unfollowUser,
         acceptFollow, rejectFollowRequest, getFollowers, 
         getFollowing, searchUsers, 
-        countFollowers, countFollowing
+        countFollowers, countFollowing, getFollowPending, getFollowersPending
             } from './controleurs/followers';
 
+import { envoyerDemande, accepterDemande, supprimerAmi, getAmis, searchUser, getDemandesEnvoyees, getDemandesRecues} from './controleurs/amis';
 
 const app : Express = express();
 const PORT = 3000;
@@ -60,7 +61,22 @@ app.get('/getFollowing', verifyToken, getFollowing); // Obtenir la liste des uti
 app.get('/searchUsers', verifyToken, searchUsers); // Rechercher des utilisateurs
 app.get('/countFollowers', verifyToken, countFollowers); // Compter les followers
 app.get('/countFollowing', verifyToken, countFollowing); // Compter les utilisateurs suivis
+app.get("/getFollowPending", verifyToken, getFollowPending);
+app.get("/getFollowersPending", verifyToken, getFollowersPending);
 
+
+
+// 📌 Envoyer une demande d'ami
+app.post("/envoyerDemande/:amiId", verifyToken, envoyerDemande);
+// 📌 Accepter une demande reçue
+app.put("/accepterDemande/:amiId", verifyToken, accepterDemande);
+// 📌 Supprimer un ami (désamitié)
+app.delete("/supprimerAmi/:amiId", verifyToken, supprimerAmi);
+// 📌 Obtenir la liste des amis
+app.get("/getAmis", verifyToken, getAmis);
+app.get("/demandesEnvoyees", verifyToken, getDemandesEnvoyees);
+app.get("/getDemandesRecues", verifyToken, getDemandesRecues);
+app.get("/searchUser", verifyToken, searchUser);
 
 
 app.get('/api/deezer', async (req: Request, res: Response) => {

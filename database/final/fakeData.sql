@@ -1,4 +1,4 @@
--- Permet d'insérer des données fictives dans le projet afin de procéder à des tests de ll'application
+-- Permet d'insérer des données fictives dans le projet afin de procéder à des tests de l'application
 
 -- Insertions dans la table utilisateur
 INSERT INTO utilisateur (prenom, nom, email, password, sexe, description, photo_profil) VALUES
@@ -16,7 +16,7 @@ INSERT INTO musique (id_utilisateur, artiste, titre, url_preview, url_cover_albu
 (4, 'Daft Punk', 'Get Lucky', 'https://example.com/getlucky.mp3', 'https://example.com/getlucky.jpg'),
 (5, 'Adele', 'Hello', 'https://example.com/hello.mp3', 'https://example.com/hello.jpg'),
 (1, 'Wolfgang Amadeus Mozart', 'Requiem', 'https://example.com/mozartrequiem.mp3', 'https://example.com/mozartrequiem.jpg'),
-(3, 'John Coltrane', 'Giant Steps', 'https://example.com/giantsteps.mp3', 'https://example.com/giantsteps.jpg');
+(3, 'John Coltrane', 'Giant Steps', 'https://example.com/giantsteps.mp3', 'https://example.com/giantsteps.jpg'),
 (4, 'The Weeknd', 'Blinding Lights', 'https://example.com/blindinglights.mp3', 'https://example.com/blindinglights.jpg'),
 (5, 'Ed Sheeran', 'Shape of You', 'https://example.com/shapeofyou.mp3', 'https://example.com/shapeofyou.jpg'),
 (1, 'Frederic Chopin', 'Nocturne Op.9 No.2', 'https://example.com/nocturneop9no2.mp3', 'https://example.com/nocturneop9no2.jpg'),
@@ -30,11 +30,20 @@ INSERT INTO musique (id_utilisateur, artiste, titre, url_preview, url_cover_albu
 (2, 'Queen', 'Bohemian Rhapsody', 'https://example.com/bohemianrhapsody.mp3', 'https://example.com/bohemianrhapsody.jpg'),
 (5, 'Billie Eilish', 'Bad Guy', 'https://example.com/badguy.mp3', 'https://example.com/badguy.jpg');
 
--- Insertions dans la table Followers
+-- Insertions dans la table Followers (relations de suivi)
 INSERT INTO Followers (follower_id, following_id, status) VALUES
-(1, 2, 'accepted'),
-(1, 3, 'accepted'),
-(2, 4, 'pending'),
-(3, 4, 'accepted'),
-(4, 5, 'accepted'),
-(5, 1, 'pending');
+-- Relations acceptées
+(1, 2, 'accepted'), -- Alice suit Bob
+(1, 3, 'accepted'), -- Alice suit Claire
+(3, 4, 'accepted'), -- Claire suit David
+(4, 5, 'accepted'), -- David suit Eve
+(5, 1, 'accepted'), -- Eve suit Alice
+(2, 5, 'accepted'), -- Bob suit Eve
+(3, 5, 'accepted'), -- Claire suit Eve
+
+-- Relations en attente (pending)
+(2, 4, 'pending'), -- Bob a demandé à suivre David
+(5, 3, 'pending'), -- Eve a demandé à suivre Claire
+(4, 1, 'pending'), -- David a demandé à suivre Alice
+(2, 1, 'pending'), -- Bob a demandé à suivre Alice
+(3, 2, 'pending'); -- Claire a demandé à suivre Bob
