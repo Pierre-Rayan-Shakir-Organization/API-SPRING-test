@@ -2,12 +2,16 @@ import express, {Express, Request, Response, NextFunction} from 'express';
 import axios from 'axios';
 import { verifyEmailLogin, verifyEmailSingup, verifyPassword, verifyToken } from './middlewares/authentification';
 import { login, signup } from './controleurs/authentification';
-import { addMusic, deleteMusic, getMusic, getMusicsByUserId, getRandomMusic } from './controleurs/musique';
+import { addMusic, deleteMusic, getMusic, getMusicsByUserId, getRandomMusic, saveTopFive, getTopFive} from './controleurs/musique';
 import cors from 'cors';
 import { getAllOtherUsers, getAllUsers } from './controleurs/utilisateurs';
 import morgan from 'morgan';
-import { createProfile, updateProfile, getProfile } from './controleurs/utilisateurs';
+import { createProfile, updateProfile, getProfile, getCurrentUserProfile } from './controleurs/utilisateurs';
 import { upload } from './middlewares/uploadMiddleware';
+import { likeMusic, getPopularMusic } from './controleurs/musicLikesController';
+import UtilisateurService from './database/utilisateurService';
+import path from 'path';
+
 import { 
         followUser, unfollowUser,
         acceptFollow, rejectFollowRequest, getFollowers, 
@@ -27,6 +31,11 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes autorisées
     allowedHeaders: ['Content-Type', 'Authorization'], // En-têtes autorisés
 }));
+
+const uploadsPath = path.resolve(__dirname, "../uploads"); // 🔥 On remonte d'un niveau pour éviter `src/`
+console.log("🟢 Dossier uploads servi depuis :", uploadsPath);
+app.use("/uploads", express.static(uploadsPath));
+
 app.get('/', (req : Request, res : Response) : void => {
     res.status(200).json({
         "message" : "Bienvenue sur l'API de FiveMusics"
@@ -79,6 +88,12 @@ app.get("/getDemandesRecues", verifyToken, getDemandesRecues);
 app.get("/searchUser", verifyToken, searchUser);
 
 
+// **Nouvelles Routes pour les Likes**
+app.post('/likeMusic/:musicId', verifyToken, likeMusic);
+app.get('/popularMusic', getPopularMusic);
+
+
+
 app.get('/api/deezer', async (req: Request, res: Response) => {
     console.log(req.query)
     const { endpoint } = req.query; // Récupère l'endpoint demandé
@@ -108,12 +123,44 @@ if (require.main === module) {
 }
 
 // Créer un profil
-app.post('/profile', upload.single('photo_profil'), createProfile);
+app.post('/profile', createProfile);
+
 
 // Modifier un profil (authentifié)
 app.put('/profile', verifyToken, upload.single('photo_profil'), updateProfile);
+app.get('/profile', verifyToken, getCurrentUserProfile);
+
 
 // Récupérer un profil utilisateur par ID
 app.get('/profile/:id', getProfile);
+app.post('/saveTopFive', verifyToken, saveTopFive);
+app.get('/getTopFive', verifyToken, getTopFive);
+
+app.post("/profile/photo", verifyToken, upload.single("photo_profil"), async (req: Request, res: Response) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "Aucune image reçue" });
+        }
+
+        const userId = (req as any).user?.id; // 🔍 Assure-toi que `user.id` est bien récupéré
+        if (!userId) {
+            return res.status(401).json({ message: "Utilisateur non authentifié" });
+        }
+
+        const photoUrl = `/uploads/${req.file.filename}`; // ✅ Stockage de l'image
+
+        // ✅ Mise à jour de la base de données
+        const utilisateurService = new UtilisateurService();
+        await utilisateurService.updateProfile(userId, { photo_profil: photoUrl });
+
+        res.json({ message: "Photo mise à jour avec succès", photoUrl });
+    } catch (error) {
+        console.error("🔴 Erreur lors de l'upload :", error);
+        res.status(500).json({ message: "Erreur lors de l'upload de la photo" });
+    }
+});
+
+
+
 
 export default app;
