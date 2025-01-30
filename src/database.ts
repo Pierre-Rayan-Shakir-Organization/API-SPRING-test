@@ -7,14 +7,14 @@ dotenv.config(); // Charger les variables d'environnement depuis le fichier .env
 
 let db: Database | mysql2.Pool; // Typage de la base de données (SQLite ou MySQL)
 
-if (process.env.NODE_ENV === 'test') {
-    // Configuration pour SQLite en mémoire pour les tests
-    console.log('Using SQLite in-memory database for tests');
-    db = await open({
-        filename: ':memory:',
-        driver: sqlite3.Database,
-    });
-} else {
+// if (process.env.NODE_ENV === 'test') {
+//     // Configuration pour SQLite en mémoire pour les tests
+//     console.log('Using SQLite in-memory database for tests');
+//     db = await open({
+//         filename: ':memory:',
+//         driver: sqlite3.Database,
+//     });
+// } else {
     // Configuration MySQL pour dev/prod
     console.log('Using MySQL for development/production');
     db = mysql2.createPool({
@@ -33,6 +33,6 @@ if (process.env.NODE_ENV === 'test') {
         database: process.env.DB_NAME,
     });
     */
-}
+
 
 export default db;
