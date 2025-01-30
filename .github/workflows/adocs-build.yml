@@ -27,8 +27,8 @@ jobs:
       # Step 3: Generate PDF from AsciiDoc
       - name: Generate PDF from AsciiDoc
         run: |
-          mkdir -p output
-          asciidoctor-pdf -o output/documentation.pdf src/asciidoc/main.adoc
+          mkdir -p docs
+          asciidoctor-pdf -o docs/documentation.pdf src/asciidoc/main.adoc
 
       # Step 4: Deploy PDF to GitHub Pages
       - name: Commit PDF to main branch
