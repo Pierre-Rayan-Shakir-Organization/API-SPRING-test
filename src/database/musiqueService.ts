@@ -67,35 +67,83 @@ export default class MusiqueService {
         } catch(error) {throw error;}
     }
 
-    async getRandomMusic(): Promise<MusiqueAndUtilisateur> {
-        const query: string = `
+    async getRandomMusic() : Promise<MusiqueAndUtilisateur> {
+        const query : string = `
             SELECT 
+                m.id AS musique_id, 
+                m.id_utilisateur, 
+                m.artiste, 
+                m.titre,
+                m.url_preview,
+                m.url_cover_album_big, 
+                u.prenom, 
+                u.nom
+            FROM 
+                musique m
+            JOIN 
+                utilisateur u ON m.id_utilisateur = u.id
+            ORDER BY 
+                RAND()
+            LIMIT 1;
+        `
+        try {
+            const [result] : [any[], any] = await pool.execute(query);
+            return result[0] as MusiqueAndUtilisateur;
+        } catch(error) {throw error;}
+    }
+    async saveTopFive(userId: number, topFive: any[]): Promise<void> {
+        const deleteQuery = `
+            DELETE FROM top_five WHERE id_utilisateur = ?
+        `;
+        const insertQuery = `
+            INSERT INTO top_five (id_utilisateur, id_musique, ordre) 
+            VALUES (?, ?, ?)
+        `;
+        const connection = await pool.getConnection();
+    
+        try {
+            // Supprimez les anciens enregistrements
+            await connection.execute(deleteQuery, [userId]);
+    
+            // Ajoutez les nouveaux enregistrements
+            const insertPromises = topFive
+                .filter((music) => music !== null) // Exclut les emplacements vides
+                .map((music, index) =>
+                    connection.execute(insertQuery, [userId, music.id, index])
+                );
+            await Promise.all(insertPromises);
+        } catch (error) {
+            throw error;
+        } finally {
+            connection.release();
+        }
+    }
+    async getTopFiveByUserId(userId: number): Promise<any[]> {
+        const query = `
+          SELECT 
             m.id AS musique_id, 
             m.id_utilisateur, 
             m.artiste, 
-            m.titre,
-            m.url_preview,
+            m.titre, 
+            m.url_preview, 
             m.url_cover_album_big, 
-            u.prenom, 
-            u.nom
-        FROM 
-            musique m
-        LEFT JOIN 
-            utilisateur u ON m.id_utilisateur = u.id
-        WHERE m.id >= (SELECT FLOOR(RAND() * (SELECT MAX(id) FROM musique)))
-        LIMIT 1;
-
-                `;
+            tf.ordre
+          FROM 
+            top_five tf
+          JOIN 
+            musique m ON tf.id_musique = m.id
+          WHERE 
+            tf.id_utilisateur = ?
+          ORDER BY 
+            tf.ordre ASC;
+        `;
+      
         try {
-            const [result]: [any[], any] = await pool.execute(query);
-            console.log("Résultat SQL :", result); // Log des résultats SQL
-            return result[0] as MusiqueAndUtilisateur;
+          const [result] = await pool.execute(query, [userId]);
+          return result as any[]; // Retourne les musiques du Top 5 avec l'ordre
         } catch (error) {
-            console.error("Erreur dans getRandomMusic :", error); // Log des erreurs
-            throw error;
+          throw error;
         }
-    }
-    
-    
+      }
 
 }

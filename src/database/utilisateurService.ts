@@ -122,15 +122,33 @@ export default class UtilisateurService {
             return users as Omit<Utilisateur, "password">[];
         } catch(error) {throw error;}
     }
-    async updateProfile(id: number, user: any): Promise<void> {
+    async updateProfile(id: number, updates: { description?: string; photo_profil?: string }): Promise<void> {
+        const fields = [];
+        const values: any[] = [];
+    
+        // Préparer dynamiquement les champs à mettre à jour
+        if (updates.description !== undefined) {
+            fields.push("description = ?");
+            values.push(updates.description);
+        }
+    
+        if (updates.photo_profil !== undefined) {
+            fields.push("photo_profil = ?");
+            values.push(updates.photo_profil);
+        }
+    
+        if (fields.length === 0) {
+            throw new Error("Aucun champ à mettre à jour");
+        }
+    
         const query = `
             UPDATE utilisateur
-            SET prenom = ?, nom = ?, email = ?, sexe = ?, description = ?, photo_profil = ?
+            SET ${fields.join(", ")}
             WHERE id = ?
         `;
-        await pool.execute(query, [
-            user.prenom, user.nom, user.email, user.sexe, user.description, user.photo_profil, id
-        ]);
+    
+        values.push(id); // Ajouter l'ID utilisateur à la fin
+        await pool.execute(query, values);
     }
 
 }

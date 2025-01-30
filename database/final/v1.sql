@@ -35,3 +35,14 @@ CREATE TABLE Followers (
     FOREIGN KEY (follower_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
     FOREIGN KEY (following_id) REFERENCES utilisateur(id) ON DELETE CASCADE
 );
+
+CREATE TABLE Amis (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur1_id INT NOT NULL,
+    utilisateur2_id INT NOT NULL,
+    statut ENUM('pending', 'accepted') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur1_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
+    FOREIGN KEY (utilisateur2_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_friendship (utilisateur1_id, utilisateur2_id)
+);
