@@ -67,38 +67,30 @@ export default class MusiqueService {
         } catch(error) {throw error;}
     }
 
-    async getRandomMusic(): Promise<MusiqueAndUtilisateur> {
-        const query: string = `
+    async getRandomMusic() : Promise<MusiqueAndUtilisateur> {
+        const query : string = `
             SELECT 
-            m.id AS musique_id, 
-            m.id_utilisateur, 
-            m.artiste, 
-            m.titre,
-            m.url_preview,
-            m.url_cover_album_big, 
-            u.prenom, 
-            u.nom
-        FROM 
-            musique m
-        LEFT JOIN 
-            utilisateur u ON m.id_utilisateur = u.id
-        WHERE m.id >= (SELECT FLOOR(RAND() * (SELECT MAX(id) FROM musique)))
-        LIMIT 1;
-
-                `;
+                m.id AS musique_id, 
+                m.id_utilisateur, 
+                m.artiste, 
+                m.titre,
+                m.url_preview,
+                m.url_cover_album_big, 
+                u.prenom, 
+                u.nom
+            FROM 
+                musique m
+            JOIN 
+                utilisateur u ON m.id_utilisateur = u.id
+            ORDER BY 
+                RAND()
+            LIMIT 1;
+        `
         try {
-            const [result]: [any[], any] = await pool.execute(query);
-            console.log("Résultat SQL :", result); // Log des résultats SQL
+            const [result] : [any[], any] = await pool.execute(query);
             return result[0] as MusiqueAndUtilisateur;
-        } catch (error) {
-            console.error("Erreur dans getRandomMusic :", error); // Log des erreurs
-            throw error;
-        }
+        } catch(error) {throw error;}
     }
-<<<<<<< HEAD
-    
-    
-=======
     async saveTopFive(userId: number, topFive: any[]): Promise<void> {
         const deleteQuery = `
             DELETE FROM top_five WHERE id_utilisateur = ?
@@ -153,6 +145,5 @@ export default class MusiqueService {
           throw error;
         }
       }
->>>>>>> origin/ProfileRayan
 
 }
