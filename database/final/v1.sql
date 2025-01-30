@@ -36,15 +36,13 @@ CREATE TABLE Followers (
     FOREIGN KEY (following_id) REFERENCES utilisateur(id) ON DELETE CASCADE
 );
 
-CREATE TABLE music_likes (
-    id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
-    music_id INT NOT NULL,
-    liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(user_id, music_id),
-    FOREIGN KEY (user_id) REFERENCES utilisateurs(id),
-    FOREIGN KEY (music_id) REFERENCES musiques(id)
+CREATE TABLE Amis (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur1_id INT NOT NULL,
+    utilisateur2_id INT NOT NULL,
+    statut ENUM('pending', 'accepted') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur1_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
+    FOREIGN KEY (utilisateur2_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_friendship (utilisateur1_id, utilisateur2_id)
 );
-
-ALTER TABLE musiques ADD COLUMN likes_count INT DEFAULT 0;
-
