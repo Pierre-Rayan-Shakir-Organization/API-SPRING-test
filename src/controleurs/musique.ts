@@ -9,7 +9,7 @@ export const addMusic = async (req : Request, res : Response) : Promise<void> =>
         const user : Omit<Utilisateur, "password"> = (req as any).user;
         music.id_utilisateur = user.id as number;
         const musicsUser : Musique[] = await musiqueService.getMusicsByUserId(user.id as number);
-        if (musicsUser.length >= 5) {
+        if (musicsUser.length >= 50) {
             res.status(401).json({
                 "message" : "Vous ne pouvez pas ajouter plus de 5 musiques"
             });

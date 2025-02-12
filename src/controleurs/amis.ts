@@ -149,7 +149,7 @@ export const countAmis = async (req: Request, res: Response): Promise<Response> 
 };
 
 
-// 📌 Rechercher un utilisateur par prénom et nom exacts
+// 📌 Rechercher un utilisateur par prénom et nom exacts (limité à 5 résultats)
 export const searchUser = async (req: Request, res: Response): Promise<Response> => {
     try {
         const user: Omit<Utilisateur, "password"> = (req as any).user;
@@ -161,14 +161,18 @@ export const searchUser = async (req: Request, res: Response): Promise<Response>
 
         console.log("🔍 Recherche API reçue:", { userId: user.id, prenom, nom });
 
-        const results = await amisService.searchUser(user.id as number, prenom as string, nom as string);
+        let results = await amisService.searchUser(user.id as number, prenom as string, nom as string);
         
-        console.log("✅ Résultats API renvoyés :", results);
+        // Limite à 5 résultats
+        results = results.slice(0, 5);
+
+        console.log("✅ Résultats API renvoyés (5 max) :", results);
         return res.status(200).json({ results });
     } catch (error) {
         console.error("❌ Erreur API searchUser:", error);
         return res.status(500).json({ error: "Erreur interne du serveur" });
     }
 };
+
 
 

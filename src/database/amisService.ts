@@ -129,30 +129,31 @@ export default class AmisService {
 async searchUser(userId: number, prenom: string, nom: string): Promise<any[]> {
     const query = `
         SELECT 
-            u.id,
-            u.prenom,
-            u.nom,
-            u.email,
-            u.sexe,
-            CASE 
-                WHEN a1.utilisateur1_id IS NOT NULL AND a2.utilisateur2_id IS NOT NULL THEN 'friends'
-                WHEN a1.utilisateur1_id IS NOT NULL THEN 'pending'
-                WHEN a2.utilisateur1_id IS NOT NULL THEN 'requested'
-                ELSE 'not_friends'
-            END AS friendship_status
-        FROM 
-            utilisateur u
-        LEFT JOIN 
-            Amis a1 ON a1.utilisateur1_id = ? AND a1.utilisateur2_id = u.id AND a1.statut = 'pending'
-        LEFT JOIN 
-            Amis a2 ON a2.utilisateur1_id = u.id AND a2.utilisateur2_id = ? AND a2.statut = 'pending'
-        WHERE 
-            u.id != ? 
-            AND u.prenom = ? 
-            AND u.nom = ?
-        ORDER BY 
-            u.nom ASC, u.prenom ASC
-        LIMIT 20;
+    u.id,
+    u.prenom,
+    u.nom,
+    u.email,
+    u.sexe,
+    CASE 
+        WHEN a1.utilisateur1_id IS NOT NULL AND a2.utilisateur2_id IS NOT NULL THEN 'friends'
+        WHEN a1.utilisateur1_id IS NOT NULL THEN 'pending'
+        WHEN a2.utilisateur1_id IS NOT NULL THEN 'requested'
+        ELSE 'not_friends'
+    END AS friendship_status
+FROM 
+    utilisateur u
+LEFT JOIN 
+    Amis a1 ON a1.utilisateur1_id = ? AND a1.utilisateur2_id = u.id AND a1.statut = 'pending'
+LEFT JOIN 
+    Amis a2 ON a2.utilisateur1_id = u.id AND a2.utilisateur2_id = ? AND a2.statut = 'pending'
+WHERE 
+    u.id != ? 
+    AND LOWER(CONCAT(u.prenom, ' ', u.nom)) = LOWER(?)
+ORDER BY 
+    u.id ASC -- Assure un ordre fixe basé sur l'ID
+LIMIT 1;
+
+
     `;
 
     try {
