@@ -1,6 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
 
 [![Run tests and upload coverage](https://github.com/Pierre-Rayan-Shakir-Organization/API-SPRING-test/actions/workflows/code-cov.yml/badge.svg)](https://github.com/Pierre-Rayan-Shakir-Organization/API-SPRING-test/actions/workflows/code-cov.yml)
 
@@ -60,6 +59,9 @@ Avec ces fonctionnalités, FiveMusic aspire à rassembler une communauté unie p
    - Exécutez le script SQL pour créer les tables nécessaires en important le fichier `database/final/v1.sql`.
 3. **Configurer les informations de connexion** :
    - Ouvrez le fichier `src/database/pool.ts` et renseignez votre identifiant et mot de passe MySQL.
+
+4. **Peupler la BDD** :
+   - N'hésitez pas a utiliser le fichier `database/final/fakeData.sql` afin de peupler votre base fictivement si vous souhaitez tester certaines fonctionnalités plus rapidement.
 
 ### Étape 3 : Installation des Dépendances et Démarrage
 1. Placez-vous à la racine du projet backend :

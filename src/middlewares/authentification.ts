@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import UtilisateurService, {Utilisateur, UtilisateurConnexion} from "../database/utilisateurService";
 import { secretKey } from "../secretKey";
 import jwt from 'jsonwebtoken';
+import { log } from "node:console";
 
 export const verifyEmailSingup = async (req : Request, res : Response, next : NextFunction) : Promise<void> => {
     const utilisateurService : UtilisateurService = new UtilisateurService();
@@ -51,7 +52,10 @@ export const verifyPassword = async (req : Request, res : Response, next : NextF
         else {
             res.status(401).json({"message" : "mot de passe incorrect"});
         }
-    } catch (error) {res.status(404).json(error);}
+    } catch (error) {
+        console.log(error);
+        res.status(404).json(error);
+    }
 }
 
 export const verifyToken = (req : Request, res : Response, next : NextFunction) : void => {
