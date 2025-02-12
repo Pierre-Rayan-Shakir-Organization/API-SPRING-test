@@ -27,13 +27,16 @@ jobs:
       # Step 3: Generate PDF from AsciiDoc
       - name: Generate PDF from AsciiDoc
         run: |
-          mkdir -p output
-          asciidoctor-pdf -o output/documentation.pdf src/asciidoc/main.adoc
+          mkdir -p docs
+          asciidoctor-pdf -o docs/documentation.pdf src/asciidoc/main.adoc
 
       # Step 4: Deploy PDF to GitHub Pages
-      - name: Deploy PDF to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./output
+      - name: Commit PDF to main branch
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add docs/documentation.pdf
+          git commit -m "📄 Mise à jour de la documentation PDF"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

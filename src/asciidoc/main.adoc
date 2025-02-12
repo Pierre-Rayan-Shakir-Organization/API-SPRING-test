@@ -1,124 +1,90 @@
 = Documentation API FiveMusics
-Auteur: Pierre Rayan Shakir
-Version: 1.1.0
+Auteur: Shakir LAABANY, Pierre RAFFOUL, Rayan TALBANI
+Version: 1.0.0
 Date: {docdate}
 
 == Introduction
 
-Ce document décrit les nouvelles fonctionnalités, endpoints, et améliorations implémentés dans le projet FiveMusics.
+Ce document décrit les fonctionnalités principales du projet *FiveMusics*, une plateforme sociale permettant aux utilisateurs d'explorer, partager et aimer de la musique.
 
 == Changelog
 
+=== *Version 1.0.0 - 2025-01-29*
+
+- Ajout de la *page Profil* permettant aux utilisateurs de personnaliser leur profil (photo de profil, description).
+- Ajout de la possibilité de définir un *Top 5 musical* sur son profil.
+- Ajout de la *page Amis*, permettant de gérer les demandes d'amis, suivre des utilisateurs et accepter des demandes en attente.
+- Amélioration du design et des interactions sur le site.
+
 === *Version 0.3 - 2024-12-18*
 
-- Ajout de l'endpoint GET /getRandomMusic pour récupérer une musique aléatoire.
-- Intégration de l'API *Deezer* pour enrichir les musiques avec des informations supplémentaires (image, audio).
-- Affichage des musiques sous forme de *cartes interactives* côté frontend.
-- Gestion améliorée des erreurs.
-- Activation de CORS dans le backend pour corriger les problèmes d'accès.
-- Ajout de la création d'un profil pour chaque utilisateur
-- Fonctionnalité de découverte aléatoire d'une musique aimé par un autre utilisateur
+- Ajout de la *page Discover* qui affiche une musique aléatoire parmi celles likées par les utilisateurs.
+- Affichage des musiques sous forme de *cartes interactives* avec image, extrait audio et actions possibles.
+- Intégration de CORS dans le backend pour éviter les problèmes d’accès.
 
 === *Version 0.2 - 2024-11-21*
 
-- Initialisation du projet backend et frontend.
-- Système d'*authentification JWT*.
+- Ajout de la *page Rechercher des musiques* permettant d'explorer des morceaux via l'API Deezer.
+- Ajout de la *page Mes Musiques* regroupant les morceaux ajoutés par l'utilisateur depuis la page de recherche.
+- Ajout du *système d'authentification JWT*.
 - Création des endpoints CRUD de gestion des musiques.
 
 ---
 
 == Fonctionnalités Principales
 
-=== 1. *Authentification avec JWT*
+=== 1. *Rechercher et ajouter des musiques*
 
-L'API utilise des *JSON Web Tokens* pour sécuriser ses endpoints.  
-Les endpoints protégés nécessitent un header *Authorization* valide.
+Les utilisateurs peuvent explorer des morceaux en utilisant l’API Deezer.
 
-.Exemple de requête pour s'authentifier
-[source, http]
-----
-POST /login HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json
+- Une barre de recherche permet de filtrer par artiste ou titre.
+- Les résultats affichent les musiques sous forme de *cartes interactives* avec extrait audio et image.
+- Un bouton *+* permet d'ajouter un morceau à sa bibliothèque personnelle.
 
-{
-  "email": "exemple@email.com",
-  "password": "123456"
-}
-----
-
-.Exemple de réponse
-[source, json]
-----
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-----
+Les musiques ajoutées sont visibles dans *Mes Musiques*, où elles peuvent être écoutées.
 
 ---
 
-=== 2. *Endpoint : Récupérer une musique aléatoire*
+=== 2. *Découverte de nouvelles musiques (Discover)*
 
-Un endpoint permet de récupérer une musique aléatoire avec les informations associées à l'utilisateur.
+La *page Discover* permet aux utilisateurs de découvrir des morceaux likés par d'autres utilisateurs de la plateforme.
 
-.Endpoint
-[source, http]
-----
-GET /getRandomMusic HTTP/1.1
-Host: localhost:3000
-----
-
-.Exemple de réponse
-[source, json]
-----
-{
-  "musique_id": 7,
-  "id_utilisateur": 8,
-  "artiste": "Sevdaliza",
-  "titre": "Alibi",
-  "url_preview": "https://example.com/preview.mp3",
-  "url_cover_album_big": "https://example.com/cover.jpg",
-  "prenom": "Jean",
-  "nom": "Reno"
-}
-----
+- En appuyant sur un bouton, une musique aléatoire parmi celles likées s'affiche.
+- Possibilité d'ajouter cette musique à sa bibliothèque.
+- Interface fluide et immersive pour la découverte musicale.
 
 ---
 
-=== 3. *Intégration avec l'API Deezer*
+=== 3. *Gestion du Profil*
 
-L'API utilise l'*API Deezer* pour enrichir les données des musiques.
+Chaque utilisateur dispose d’une page profil personnalisable :
 
-- Recherche basée sur l’artiste et le titre.
-- Retour des informations Deezer : extrait audio, image de l’album.
-
-.Exemple d’appel à Deezer
-[source, http]
-----
-GET https://api.deezer.com/search?q=artist:"Sevdaliza" track:"Alibi"
-----
-
-.Exemple de réponse
-[source, json]
-----
-{
-  "data": [
-    {
-      "artist": { "name": "Sevdaliza" },
-      "title": "Alibi",
-      "preview": "https://example.com/audio.mp3",
-      "album": { "cover_big": "https://example.com/cover.jpg" }
-    }
-  ]
-}
-----
+- *Modification de la photo de profil* en cliquant sur l’image et en téléchargeant une nouvelle photo.
+- *Mise à jour de la description* pour présenter ses goûts musicaux.
+- *Sélection d’un Top 5 musical* qui s'affiche sur son profil.
 
 ---
 
-=== 4. *Affichage des cartes de musiques interactives*
+=== 4. *Gestion des Amis*
 
-Les musiques récupérées sont affichées sous forme de *cartes interactives* côté frontend.
+La *page Amis* permet de gérer ses relations sociales sur FiveMusics.
 
-- Affichage de l’image de couverture, du nom de l’artiste, et du titre.
-- Bouton *Play* pour écouter un extrait audio.
-- Bouton pour afficher une *nouvelle musique*.
+- Rechercher des utilisateurs et leur envoyer une *demande d’ami*.
+- Accepter ou refuser les demandes reçues.
+- Voir la liste des *followers* et des *personnes suivies*.
+- *Suivre en retour* une personne qui nous suit déjà.
+
+---
+
+=== 5. Playlist personnelle
+
+La *page Mes musiques* permet de construire sa propre playlist de 5 musiques sur FiveMusics.
+
+- Ajout des musiques à partir de la fonction de recherche
+- Possibilité d’écouter un extrait des musiques
+
+---
+
+== Conclusion
+
+FiveMusics propose une expérience musicale enrichie, combinant découverte, personnalisation et interaction sociale. Les prochaines mises à jour viseront à améliorer encore davantage l'expérience utilisateur.
