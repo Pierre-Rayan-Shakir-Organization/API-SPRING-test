@@ -11,6 +11,7 @@ import { upload } from './middlewares/uploadMiddleware';
 import { likeMusic, getPopularMusic } from './controleurs/musicLikesController';
 import UtilisateurService from './database/utilisateurService';
 import path from 'path';
+import { connexionGoogle } from './connexionGoogleCalendar';
 
 import { 
         followUser, unfollowUser,
@@ -135,6 +136,9 @@ app.get('/profile', verifyToken, getCurrentUserProfile);
 app.get('/profile/:id', getProfile);
 app.post('/saveTopFive', verifyToken, saveTopFive);
 app.get('/getTopFive', verifyToken, getTopFive);
+
+// Connexion avec google
+app.get('/connect-google', connexionGoogle);
 
 app.post("/profile/photo", verifyToken, upload.single("photo_profil"), async (req: Request, res: Response) => {
     try {
