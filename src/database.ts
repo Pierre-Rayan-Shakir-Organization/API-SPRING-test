@@ -17,7 +17,7 @@ dotenv.config(); // Charger les variables d'environnement depuis le fichier .env
 // } else {
     // Configuration MySQL pour dev/prod
     console.log('Using MySQL for development/production');
-    db = mysql2.createPool({
+    const db = mysql2.createPool({
         host: "localhost",
         database: "fiveMusics",
         password: "",
