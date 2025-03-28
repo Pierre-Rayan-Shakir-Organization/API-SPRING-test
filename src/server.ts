@@ -11,6 +11,9 @@ import { upload } from './middlewares/uploadMiddleware';
 import { likeMusic, getPopularMusic } from './controleurs/musicLikesController';
 import UtilisateurService from './database/utilisateurService';
 import path from 'path';
+import { connexionGoogle } from './connexionGoogleCalendar';
+import { addEventToCalendar, getRecentListens } from './controleurs/calendarController';
+import { addVote } from './controleurs/voteController';
 
 import { 
         followUser, unfollowUser,
@@ -136,6 +139,9 @@ app.get('/profile/:id', getProfile);
 app.post('/saveTopFive', verifyToken, saveTopFive);
 app.get('/getTopFive', verifyToken, getTopFive);
 
+// Connexion avec google
+app.get('/connect-google', connexionGoogle);
+
 app.post("/profile/photo", verifyToken, upload.single("photo_profil"), async (req: Request, res: Response) => {
     try {
         if (!req.file) {
@@ -160,7 +166,11 @@ app.post("/profile/photo", verifyToken, upload.single("photo_profil"), async (re
     }
 });
 
+// Routes pour le calendrier Google
+app.put('/calendar/add', verifyToken, addEventToCalendar);
+app.get('/calendar/list/:userId', verifyToken, getRecentListens);
 
-
+// Route pour les votes
+app.post('/vote', verifyToken, addVote);
 
 export default app;
