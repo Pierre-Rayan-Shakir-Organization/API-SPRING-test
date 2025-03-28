@@ -13,15 +13,17 @@ export const addEventToCalendar = async (req: Request, res: Response) => {
         const { musicId, userId } = req.body;
         
         // Récupérer le refresh token de l'utilisateur
-        const [user] = await db.query('SELECT google_refresh_token FROM users WHERE id = ?', [userId]);
-        
+        const [rows] = await db.query('SELECT google_refresh_token FROM users WHERE id = ?', [userId]);
+        const user = (rows as any[])[0];
+                
         if (!user || !user.google_refresh_token) {
             return res.status(400).json({ message: 'Utilisateur non connecté à Google Calendar' });
         }
 
         // Récupérer les informations de la musique
-        const [music] = await db.query('SELECT title, artist FROM musics WHERE id = ?', [musicId]);
-        
+        const [rowsM] = await db.query('SELECT title, artist FROM musics WHERE id = ?', [musicId]);
+        const music = (rowsM as any[])[0];
+                
         if (!music) {
             return res.status(404).json({ message: 'Musique non trouvée' });
         }
@@ -64,8 +66,9 @@ export const getRecentListens = async (req: Request, res: Response) => {
         const { userId } = req.params;
         
         // Récupérer le refresh token de l'utilisateur
-        const [user] = await db.query('SELECT google_refresh_token FROM users WHERE id = ?', [userId]);
-        
+        const [rows] = await db.query('SELECT google_refresh_token FROM users WHERE id = ?', [userId]);
+        const user = (rows as any[])[0];
+                
         if (!user || !user.google_refresh_token) {
             return res.status(400).json({ message: 'Utilisateur non connecté à Google Calendar' });
         }
