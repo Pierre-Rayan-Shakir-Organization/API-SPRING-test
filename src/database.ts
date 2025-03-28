@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config(); // Charger les variables d'environnement depuis le fichier .env
 
-let db: Database | mysql2.Pool; // Typage de la base de données (SQLite ou MySQL)
+// let db: Database | mysql2.Pool; // Typage de la base de données (SQLite ou MySQL)
 
 // if (process.env.NODE_ENV === 'test') {
 //     // Configuration pour SQLite en mémoire pour les tests
