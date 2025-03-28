@@ -8,7 +8,18 @@ CREATE TABLE utilisateur (
     password VARCHAR(100) NOT NULL,
     sexe ENUM('M', 'F') NOT NULL,
     date_inscription TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    description TEXT NULL,
+    photo_profil VARCHAR(255) NULL, 
     PRIMARY KEY (id)
+);
+
+CREATE TABLE utilisateur_google (
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INTEGER NOT NULL,
+    access_token TEXT NOT NULL,
+    refresh_token TEXT NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE
 );
 
 
@@ -32,4 +43,15 @@ CREATE TABLE Followers (
     PRIMARY KEY (follower_id, following_id),
     FOREIGN KEY (follower_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
     FOREIGN KEY (following_id) REFERENCES utilisateur(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Amis (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur1_id INT NOT NULL,
+    utilisateur2_id INT NOT NULL,
+    statut ENUM('pending', 'accepted') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur1_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
+    FOREIGN KEY (utilisateur2_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_friendship (utilisateur1_id, utilisateur2_id)
 );

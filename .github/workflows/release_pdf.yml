@@ -1,0 +1,21 @@
+name: Attach PDF to GitHub Release
+
+on:
+  release:
+    types:
+      - created  
+
+jobs:
+  upload_pdf:
+    runs-on: ubuntu-latest
+    name: Upload Documentation PDF to Release
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 
+
+      - name: Upload PDF to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: docs/documentation.pdf  
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

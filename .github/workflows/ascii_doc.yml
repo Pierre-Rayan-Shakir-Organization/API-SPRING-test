@@ -1,0 +1,42 @@
+name: Build AsciiDoc to PDF
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  adoc_build_pdf:
+    runs-on: ubuntu-latest
+    name: Build AsciiDoc to PDF
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Ruby and Gems
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+      
+      - name: Install Asciidoctor-PDF
+        run: gem install asciidoctor asciidoctor-pdf
+
+      # Step 3: Generate PDF from AsciiDoc
+      - name: Generate PDF from AsciiDoc
+        run: |
+          mkdir -p docs
+          asciidoctor-pdf -o docs/documentation.pdf src/asciidoc/main.adoc
+
+      # Step 4: Deploy PDF to GitHub Pages
+      - name: Commit PDF to main branch
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add docs/documentation.pdf
+          git commit -m "📄 Mise à jour de la documentation PDF"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

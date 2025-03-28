@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: ./API-SPRING-test
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    container_name: fivemusic-backend
+    networks:
+      - fivemusic-net
+
+  frontend:
+    build:
+      context: ./Front
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    container_name: fivemusic-frontend
+    networks:
+      - fivemusic-net
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:3000
+
+networks:
+  fivemusic-net:
+    driver: bridge

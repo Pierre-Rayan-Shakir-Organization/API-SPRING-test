@@ -1,84 +1,90 @@
-= API Documentation
-Auteur: Pierre Rayan Shakir
-Version: 1.0
+= Documentation API FiveMusics
+Auteur: Shakir LAABANY, Pierre RAFFOUL, Rayan TALBANI
+Version: 1.0.0
 Date: {docdate}
 
 == Introduction
 
-Ce document décrit les endpoints principaux de l'API et fournit des informations sur la configuration et l'utilisation du projet backend.
+Ce document décrit les fonctionnalités principales du projet *FiveMusics*, une plateforme sociale permettant aux utilisateurs d'explorer, partager et aimer de la musique.
 
-== Installation
+== Changelog
 
-Pour installer ce projet, suivez les étapes suivantes :
+=== *Version 1.0.0 - 2025-01-29*
 
-[source,bash]
-----
-git clone https://github.com/votre-utilisateur/nom-du-projet.git
-cd nom-du-projet
-npm install
-----
+- Ajout de la *page Profil* permettant aux utilisateurs de personnaliser leur profil (photo de profil, description).
+- Ajout de la possibilité de définir un *Top 5 musical* sur son profil.
+- Ajout de la *page Amis*, permettant de gérer les demandes d'amis, suivre des utilisateurs et accepter des demandes en attente.
+- Amélioration du design et des interactions sur le site.
 
-== Lancer l'Application
+=== *Version 0.3 - 2024-12-18*
 
-Pour démarrer l'application, exécutez la commande suivante :
+- Ajout de la *page Discover* qui affiche une musique aléatoire parmi celles likées par les utilisateurs.
+- Affichage des musiques sous forme de *cartes interactives* avec image, extrait audio et actions possibles.
+- Intégration de CORS dans le backend pour éviter les problèmes d’accès.
 
-[source,bash]
-----
-npm start
-----
+=== *Version 0.2 - 2024-11-21*
 
-== Endpoints de l'API
+- Ajout de la *page Rechercher des musiques* permettant d'explorer des morceaux via l'API Deezer.
+- Ajout de la *page Mes Musiques* regroupant les morceaux ajoutés par l'utilisateur depuis la page de recherche.
+- Ajout du *système d'authentification JWT*.
+- Création des endpoints CRUD de gestion des musiques.
 
-Voici la description des principaux endpoints disponibles :
+---
 
-=== Utilisateurs
+== Fonctionnalités Principales
 
-* `GET /api/users`
-  **Description** : Récupère tous les utilisateurs.
+=== 1. *Rechercher et ajouter des musiques*
 
-* `POST /api/users`
-  **Description** : Ajoute un nouvel utilisateur.
+Les utilisateurs peuvent explorer des morceaux en utilisant l’API Deezer.
 
-=== Produits
+- Une barre de recherche permet de filtrer par artiste ou titre.
+- Les résultats affichent les musiques sous forme de *cartes interactives* avec extrait audio et image.
+- Un bouton *+* permet d'ajouter un morceau à sa bibliothèque personnelle.
 
-* `GET /api/products`
-  **Description** : Récupère la liste des produits.
+Les musiques ajoutées sont visibles dans *Mes Musiques*, où elles peuvent être écoutées.
 
-* `POST /api/products`
-  **Description** : Crée un nouveau produit.
+---
 
-== Exemples de Requêtes
+=== 2. *Découverte de nouvelles musiques (Discover)*
 
-.Exemple de requête pour récupérer les utilisateurs
-[source, http]
-----
-GET /api/users HTTP/1.1
-Host: localhost:3000
-----
+La *page Discover* permet aux utilisateurs de découvrir des morceaux likés par d'autres utilisateurs de la plateforme.
 
-.Exemple de requête pour créer un utilisateur
-[source, json]
-----
-POST /api/users HTTP/1.1
-Host: localhost:3000
-Content-Type: application/json
+- En appuyant sur un bouton, une musique aléatoire parmi celles likées s'affiche.
+- Possibilité d'ajouter cette musique à sa bibliothèque.
+- Interface fluide et immersive pour la découverte musicale.
 
-{
-  "name": "John Doe",
-  "email": "john.doe@example.com"
-}
-----
+---
 
-== Contribution
+=== 3. *Gestion du Profil*
 
-Pour contribuer au projet, suivez ces étapes :
+Chaque utilisateur dispose d’une page profil personnalisable :
 
-1. Fork le projet
-2. Créez une branche pour vos modifications : `git checkout -b feature/nouvelle-fonctionnalite`
-3. Commitez vos changements : `git commit -m "Ajout d'une nouvelle fonctionnalité"`
-4. Poussez la branche : `git push origin feature/nouvelle-fonctionnalite`
-5. Ouvrez une pull request
+- *Modification de la photo de profil* en cliquant sur l’image et en téléchargeant une nouvelle photo.
+- *Mise à jour de la description* pour présenter ses goûts musicaux.
+- *Sélection d’un Top 5 musical* qui s'affiche sur son profil.
 
-== Licence
+---
 
-Ce projet est sous licence MIT. Pour plus d'informations, consultez le fichier LICENSE.
+=== 4. *Gestion des Amis*
+
+La *page Amis* permet de gérer ses relations sociales sur FiveMusics.
+
+- Rechercher des utilisateurs et leur envoyer une *demande d’ami*.
+- Accepter ou refuser les demandes reçues.
+- Voir la liste des *followers* et des *personnes suivies*.
+- *Suivre en retour* une personne qui nous suit déjà.
+
+---
+
+=== 5. Playlist personnelle
+
+La *page Mes musiques* permet de construire sa propre playlist de 5 musiques sur FiveMusics.
+
+- Ajout des musiques à partir de la fonction de recherche
+- Possibilité d’écouter un extrait des musiques
+
+---
+
+== Conclusion
+
+FiveMusics propose une expérience musicale enrichie, combinant découverte, personnalisation et interaction sociale. Les prochaines mises à jour viseront à améliorer encore davantage l'expérience utilisateur.
