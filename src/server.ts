@@ -166,6 +166,22 @@ app.post("/profile/photo", verifyToken, upload.single("photo_profil"), async (re
     }
 });
 
+app.get('/me', verifyToken, (req: Request, res: Response) => {
+    const utilisateur = (req as any).user;
+  
+    if (!utilisateur || !utilisateur.id) {
+      return res.status(401).json({ message: "Utilisateur non connecté" });
+    }
+  
+    res.status(200).json({
+      userId: utilisateur.id,
+      nom: utilisateur.nom,
+      prenom: utilisateur.prenom,
+      email: utilisateur.email
+    });
+  });
+  
+
 // Routes pour le calendrier Google
 app.put('/calendar/add', verifyToken, addEventToCalendar);
 app.get('/calendar/list/:userId', verifyToken, getRecentListens);
