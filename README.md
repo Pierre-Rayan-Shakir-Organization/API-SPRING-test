@@ -99,4 +99,60 @@ Pour accéder à l’interface utilisateur :
 Vous pouvez maintenant utiliser le projet FiveMusic dans sa totalité avec le frontend et le backend fonctionnels.
 +++
 
+# Lancement du projet avec Docker & Docker Compose
 
+FiveMusic peut aussi être lancé rapidement avec **Docker** pour éviter d’installer manuellement Node.js et ses dépendances.
+
+## Structure du projet recommandée
+
+Pour utiliser Docker Compose, créez un **répertoire parent** contenant :
+
+- Le dossier du **backend** (`API-SPRING-test`)
+- Le dossier du **frontend** (`Front`)
+- Et le fichier `docker-compose.yml` (déplacé à la racine du dossier parent)
+
+```
+FiveMusic/
+├── docker-compose.yml
+├── API-SPRING-test/
+└── Front/
+
+```
+
+## Étapes de lancement
+
+### 1. Cloner les deux projets
+
+```bash
+git clone https://github.com/Pierre-Rayan-Shakir-Organization/API-SPRING-test
+git clone https://github.com/Pierre-Rayan-Shakir-Organization/Front
+
+```
+
+> Assurez-vous de placer les deux dossiers dans le même dossier parent.
+> 
+
+### 2. Déplacer le fichier `docker-compose.yml`
+
+Le fichier `docker-compose.yml` se trouve dans le dossier `API-SPRING-test` par défaut.
+
+**Déplacez-le au même niveau que les deux projets**, comme ceci :
+
+```bash
+mv API-SPRING-test/docker-compose.yml .
+
+```
+
+### 3. Lancer les conteneurs
+
+```bash
+docker-compose up --build
+
+```
+
+### 4. Accéder à l’application
+
+- Frontend : [http://localhost:](http://localhost:3000/)4000
+- Backend API : [http://localhost:300](http://localhost:3001/)0
+
+##
