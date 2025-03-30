@@ -275,7 +275,7 @@ app.get('/me', verifyToken, (req: Request, res: Response) => {
 
 // Routes pour le calendrier Google
 app.put('/calendar/add', verifyToken, addEventToCalendar);
-app.get('/calendar/list/:userId', verifyToken, getRecentListens);
+app.get('/calendar/list', verifyToken, getRecentListens);
 
 
 // Route pour les votes

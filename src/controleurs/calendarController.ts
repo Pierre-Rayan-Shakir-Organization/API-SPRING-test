@@ -7,7 +7,7 @@ export const addEventToCalendar = async (req: Request, res: Response) => {
     console.log('💬 Reçu dans req.body :', req.body);
     //console.log('💬 Reçu dans req.params :', req.params);
     try {
-      const { titre, artiste, date, userId } = req.body;
+      const { titre, artiste, date, userId, url_cover_album_big, url_preview } = req.body;
   
       if (!titre || !artiste || !date || !userId) {
         return res.status(400).json({ message: 'Champs manquants dans la requête' });
@@ -33,7 +33,7 @@ export const addEventToCalendar = async (req: Request, res: Response) => {
   
       const event = {
         summary: `Écoute de ${titre}`,
-        description: `Artiste: ${artiste}`,
+        description: `Artiste: ${artiste} | Cover: ${url_cover_album_big} | Preview: ${url_preview}`,
         start: {
           dateTime: date,
           timeZone: 'Europe/Paris',
@@ -43,6 +43,7 @@ export const addEventToCalendar = async (req: Request, res: Response) => {
           timeZone: 'Europe/Paris',
         },
       };
+      
   
       await calendar.events.insert({
         calendarId: 'primary',
@@ -59,7 +60,7 @@ export const addEventToCalendar = async (req: Request, res: Response) => {
 
   export const getRecentListens = async (req: Request, res: Response) => {
     try {
-      const { userId } = req.params;
+      const userId = (req as any).user.id; // Récupéré via le token JWT
   
       // ✅ Récupérer le refresh token depuis la table utilisateur_google
       const [rows] = await db.query(
@@ -79,21 +80,23 @@ export const addEventToCalendar = async (req: Request, res: Response) => {
   
       const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
   
-      // Calculer la date d'il y a 7 jours
-      const sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      // Calculer la date d’il y a 14 jours
+      const fourteenDaysAgo = new Date();
+      fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
   
       const response = await calendar.events.list({
         calendarId: 'primary',
-        timeMin: sevenDaysAgo.toISOString(),
+        timeMin: fourteenDaysAgo.toISOString(),
         timeMax: new Date().toISOString(),
-        q: 'Écoute de', // Filtrer uniquement les événements d'écoute
+        q: 'Écoute de', // Ne garder que les événements ajoutés par l'app
       });
-  
+      console.log("📅 Événements Google récupérés :", response.data.items);
+
       res.status(200).json(response.data.items);
     } catch (error) {
       console.error('❌ Erreur lors de la récupération des écoutes:', error);
       res.status(500).json({ message: 'Erreur lors de la récupération des écoutes' });
     }
   };
+  
   
