@@ -11,9 +11,13 @@ import { upload } from './middlewares/uploadMiddleware';
 import { likeMusic, getPopularMusic } from './controleurs/musicLikesController';
 import UtilisateurService from './database/utilisateurService';
 import path from 'path';
-import { connexionGoogle } from './connexionGoogleCalendar';
+import { connexionGoogle, oauth2Client } from './connexionGoogleCalendar';
 import { addEventToCalendar, getRecentListens } from './controleurs/calendarController';
 import { addVote } from './controleurs/voteController';
+import db from './database';
+import cookieParser from "cookie-parser";
+
+
 
 import { 
         followUser, unfollowUser,
@@ -23,6 +27,11 @@ import {
             } from './controleurs/followers';
 
 import { envoyerDemande, accepterDemande, supprimerAmi, getAmis, searchUser, getDemandesEnvoyees, getDemandesRecues} from './controleurs/amis';
+import jwt from 'jsonwebtoken';
+import { secretKey } from './secretKey';
+
+
+
 
 const app : Express = express();
 const PORT = 3000;
@@ -38,6 +47,9 @@ app.use(cors({
 const uploadsPath = path.resolve(__dirname, "../uploads"); // 🔥 On remonte d'un niveau pour éviter `src/`
 console.log("🟢 Dossier uploads servi depuis :", uploadsPath);
 app.use("/uploads", express.static(uploadsPath));
+
+app.use(cookieParser());
+
 
 app.get('/', (req : Request, res : Response) : void => {
     res.status(200).json({
@@ -141,6 +153,83 @@ app.get('/getTopFive', verifyToken, getTopFive);
 
 // Connexion avec google
 app.get('/connect-google', connexionGoogle);
+
+
+
+
+
+  /* app.get('/auth/google/callback', async (req, res) => {
+    const code = req.query.code;
+  
+    if (!code) {
+      return res.status(400).send('Code Google manquant');
+    }
+  
+    try {
+      const { tokens } = await oauth2Client.getToken(code as string);
+      oauth2Client.setCredentials(tokens);
+  
+      // ✅ Mets le log ici :
+      console.log("✅ Tokens reçus :", tokens);
+  
+      // Enregistre le refresh_token en BDD
+      const userId = 14; // temporairement en dur
+      const refreshToken = tokens.refresh_token;
+      const accessToken = tokens.access_token;
+  
+      if (!refreshToken || !accessToken) {
+        return res.status(400).send('Impossible de récupérer les tokens Google');
+      }
+  
+      await db.query(
+        'INSERT INTO utilisateur_google (utilisateur_id, refresh_token, access_token, expires_at) VALUES (?, ?, ?, NOW() + INTERVAL 1 HOUR)',
+        [userId, refreshToken, accessToken]
+      );
+  
+      res.send('✅ Connecté à Google Calendar avec succès');
+    } catch (error) {
+      console.error("❌ Erreur callback Google :", error);
+      res.status(500).send('Erreur lors de la connexion à Google Calendar');
+    }
+  }); */
+
+
+  app.get('/auth/google/callback', async (req: Request, res: Response) => {
+    const code = req.query.code;
+    const jwtToken = req.cookies.jwt_token;
+  
+    if (!code || !jwtToken) {
+      return res.status(400).send("Code ou token manquant");
+    }
+  
+    try {
+      const { tokens } = await oauth2Client.getToken(code as string);
+      oauth2Client.setCredentials(tokens);
+  
+      // ✅ Extraire le userId depuis le JWT stocké dans le cookie
+      const decoded = jwt.verify(jwtToken, secretKey) as { id: number };
+      const userId = decoded.id;
+  
+      const refreshToken = tokens.refresh_token;
+      const accessToken = tokens.access_token;
+  
+      if (!refreshToken || !accessToken) {
+        return res.status(400).send('Impossible de récupérer les tokens Google');
+      }
+  
+      await db.query(
+        'INSERT INTO utilisateur_google (utilisateur_id, refresh_token, access_token, expires_at) VALUES (?, ?, ?, NOW() + INTERVAL 1 HOUR)',
+        [userId, refreshToken, accessToken]
+      );
+  
+      res.redirect('http://localhost:4000/mesmusiques');
+
+    } catch (error) {
+      console.error("❌ Erreur callback Google :", error);
+      res.status(500).send("Erreur lors de la connexion à Google Calendar");
+    }
+  });
+  
 
 app.post("/profile/photo", verifyToken, upload.single("photo_profil"), async (req: Request, res: Response) => {
     try {
