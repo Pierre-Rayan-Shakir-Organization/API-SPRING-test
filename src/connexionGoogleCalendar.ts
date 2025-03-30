@@ -11,17 +11,32 @@ const oauth2Client = new google.auth.OAuth2(
 );
 */
 
-const oauth2Client = new google.auth.OAuth2(
-    "898958448984-3glgj7qig64qfh2vn81chlpsq9utb7g4.apps.googleusercontent.com",
-    "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",
-    "http://localhost:4000"
+export const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID!,
+    process.env.GOOGLE_CLIENT_SECRET!,
+    process.env.GOOGLE_REDIRECT_URI!
 );
 
-export const connexionGoogle = async (req : Request, res : Response) => {
-    const authUrl = oauth2Client.generateAuthUrl({
-        access_type: "offline",
-        scope: ["https://www.googleapis.com/auth/calendar.events"],
-        prompt: "consent",
+export const connexionGoogle = async (req: Request, res: Response) => {
+    const { token } = req.query;
+  
+    if (!token) {
+      return res.status(400).send("Token JWT manquant");
+    }
+  
+    // 🔒 Mettre le token dans un cookie httpOnly
+    res.cookie("jwt_token", token, {
+      httpOnly: true,
+      secure: false, // true si HTTPS
+      maxAge: 5 * 60 * 1000,
     });
+  
+    const authUrl = oauth2Client.generateAuthUrl({
+      access_type: "offline",
+      scope: ["https://www.googleapis.com/auth/calendar.events"],
+      prompt: "consent",
+    });
+  
     res.redirect(authUrl);
-}
+  };
+
