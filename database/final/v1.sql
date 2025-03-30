@@ -13,6 +13,15 @@ CREATE TABLE utilisateur (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE utilisateur_google (
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INTEGER NOT NULL,
+    access_token TEXT NOT NULL,
+    refresh_token TEXT NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE
+);
+
 
 CREATE TABLE musique (
     id INTEGER NOT NULL AUTO_INCREMENT UNIQUE,

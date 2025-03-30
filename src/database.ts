@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config(); // Charger les variables d'environnement depuis le fichier .env
 
-let db: Database | mysql2.Pool; // Typage de la base de données (SQLite ou MySQL)
+// let db: Database | mysql2.Pool; // Typage de la base de données (SQLite ou MySQL)
 
 // if (process.env.NODE_ENV === 'test') {
 //     // Configuration pour SQLite en mémoire pour les tests
@@ -17,7 +17,7 @@ let db: Database | mysql2.Pool; // Typage de la base de données (SQLite ou MySQ
 // } else {
     // Configuration MySQL pour dev/prod
     console.log('Using MySQL for development/production');
-    db = mysql2.createPool({
+    const db = mysql2.createPool({
         host: "localhost",
         database: "fiveMusics",
         password: "",
