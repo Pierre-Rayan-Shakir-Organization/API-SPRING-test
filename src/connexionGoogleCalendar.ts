@@ -1,7 +1,6 @@
 import { google } from "googleapis";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
-
 dotenv.config();
 
 /*
@@ -40,3 +39,4 @@ export const connexionGoogle = async (req: Request, res: Response) => {
   
     res.redirect(authUrl);
   };
+
