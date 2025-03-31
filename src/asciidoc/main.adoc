@@ -9,6 +9,16 @@ Ce document décrit les fonctionnalités principales du projet *FiveMusics*, une
 
 == Changelog
 
+=== *Version 1.1.0 - 2025-03-31*
+
+- Intégration de *Google Calendar* à l'application via OAuth2.
+- Ajout d’un bouton *Écouter sur Deezer* qui ajoute automatiquement un événement dans le calendrier de l’utilisateur.
+- Mise en place d’un *connecteur sécurisé* avec authentification JWT.
+- Enregistrement des tokens Google dans une table dédiée `utilisateur_google`.
+- Ajout de la *page Mon Historique* : permet de récupérer les musiques écoutées par un utilisateur via son agenda Google sur les 2 dernières semaines.
+- Affichage sous forme de *cartes musicales* avec image, nom de l'artiste, titre, extrait audio et date d’écoute.
+- Amélioration du design de la navbar avec ajout d’un bouton “Connecter Google Calendar”.
+
 === *Version 1.0.0 - 2025-01-29*
 
 - Ajout de la *page Profil* permettant aux utilisateurs de personnaliser leur profil (photo de profil, description).
@@ -82,6 +92,14 @@ La *page Mes musiques* permet de construire sa propre playlist de 5 musiques sur
 
 - Ajout des musiques à partir de la fonction de recherche
 - Possibilité d’écouter un extrait des musiques
+
+---
+
+=== 6. Historique d'écoute avec Google Calendar
+
+- Lorsque l’utilisateur clique sur “Écouter sur Deezer”, un événement est ajouté automatiquement à son Google Calendar.
+- Ces événements peuvent être récupérés et affichés dans une *page historique* avec visuels et date/heure d’écoute.
+- Cette fonctionnalité permet d’archiver toutes les écoutes de manière automatique et sécurisée.
 
 ---
 
