@@ -156,3 +156,54 @@ docker-compose up --build
 - Backend API : [http://localhost:300](http://localhost:3001/)0
 
 ##
+
+
+## Intégration avec Google Calendar
+
+### Fonctionnalité
+
+Lorsqu’un utilisateur clique sur le bouton **"Écouter"**, un événement est automatiquement ajouté à son Google Calendar avec :
+
+-   le **titre** de la musique,
+    
+-   l’**artiste**,
+    
+-   la **preview audio**,
+    
+-   la **jaquette de l’album**,
+    
+-   la **date d’écoute**.
+    
+
+----------
+
+### Prérequis
+
+1.  **Créer un projet sur Google Cloud Console** :
+    
+    -   Activer l'API **Google Calendar**.
+        
+    -   Créer des identifiants **OAuth 2.0** de type **application web**.
+        
+    -   Ajouter une **URI de redirection autorisée** :  
+        `http://localhost:3000/auth/google/callback`
+        
+2.  **Créer un fichier `.env` dans le backend :**
+    
+
+```env
+GOOGLE_CLIENT_ID=VOTRE_CLIENT_ID
+GOOGLE_CLIENT_SECRET=VOTRE_CLIENT_SECRET
+GOOGLE_REDIRECT_URI=http://localhost:3000/auth/google/callback
+
+```
+
+> ⚠️ Ce fichier est **ignoré automatiquement** via `.gitignore` et **ne doit jamais être versionné** dans Git.
+
+----------
+
+### Connexion à Google Calendar
+
+-   L’utilisateur clique sur **"Connecter Google Calendar"** dans la navbar puis se connecte avec son compte Google.
+- Il peut désormais utiliser le bouton écouter sur Deezer
+    
