@@ -9,6 +9,14 @@ Ce document décrit les fonctionnalités principales du projet *FiveMusics*, une
 
 == Changelog
 
+=== *Version 1.2.0 - 2025-04-01*
+
+- Ajout d’un **bouton IA** sur chaque carte de musique permettant d’obtenir :
+  - Les **paroles** du morceau via l’API **Genius**.
+  - Un **résumé** et une **analyse thématique** grâce à l’API **OpenAI (ChatGPT)**.
+- Intégration d’un **modal interactif** affichant les informations récupérées.
+
+
 === *Version 1.1.0 - 2025-03-31*
 
 - Intégration de *Google Calendar* à l'application via OAuth2.
@@ -102,6 +110,11 @@ La *page Mes musiques* permet de construire sa propre playlist de 5 musiques sur
 - Cette fonctionnalité permet d’archiver toutes les écoutes de manière automatique et sécurisée.
 
 ---
+
+=== 7. Résumé et explication de la musique
+
+- Lorsque l’utilisateur clique sur l'icone Robot, un résumé et une explication de la musique est affiché.
+- Cette fonctionnalité utilise l'API de Genius ainsi que de ChatGPT. Grâce à cela, les utilisateurs n'auront aucun mal à comprendre le message et les émotions qu'un artiste souhaite transmettre.
 
 == Conclusion
 
