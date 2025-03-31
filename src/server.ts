@@ -16,6 +16,7 @@ import { addEventToCalendar, getRecentListens } from './controleurs/calendarCont
 import { addVote } from './controleurs/voteController';
 import db from './database';
 import cookieParser from "cookie-parser";
+import { getLyricsAndSummary } from './controleurs/lyricsController';
 
 
 
@@ -280,5 +281,8 @@ app.get('/calendar/list', verifyToken, getRecentListens);
 
 // Route pour les votes
 app.post('/vote', verifyToken, addVote);
+
+// Routes pour les lyrics
+app.get('/lyrics/:musicId', getLyricsAndSummary);
 
 export default app;
