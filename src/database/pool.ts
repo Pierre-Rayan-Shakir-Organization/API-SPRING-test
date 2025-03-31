@@ -6,7 +6,7 @@ dotenv.config(); // Charger les variables d'environnement depuis le fichier .env
 
 export const pool = mysql2.createPool({
     host: "localhost",
-    database: "fiveMusics",
+    database: "fivemusics",
     password: "",
     user: "root",
     port: 3306

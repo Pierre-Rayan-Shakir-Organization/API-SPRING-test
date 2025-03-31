@@ -1,6 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Five-music-key&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Five-music-key)
 
 [![Run tests and upload coverage](https://github.com/Pierre-Rayan-Shakir-Organization/API-SPRING-test/actions/workflows/code-cov.yml/badge.svg)](https://github.com/Pierre-Rayan-Shakir-Organization/API-SPRING-test/actions/workflows/code-cov.yml)
 
@@ -61,6 +60,9 @@ Avec ces fonctionnalités, FiveMusic aspire à rassembler une communauté unie p
 3. **Configurer les informations de connexion** :
    - Ouvrez le fichier `src/database/pool.ts` et renseignez votre identifiant et mot de passe MySQL.
 
+4. **Peupler la BDD** :
+   - N'hésitez pas a utiliser le fichier `database/final/fakeData.sql` afin de peupler votre base fictivement si vous souhaitez tester certaines fonctionnalités plus rapidement.
+
 ### Étape 3 : Installation des Dépendances et Démarrage
 1. Placez-vous à la racine du projet backend :
    ```bash
@@ -97,4 +99,60 @@ Pour accéder à l’interface utilisateur :
 Vous pouvez maintenant utiliser le projet FiveMusic dans sa totalité avec le frontend et le backend fonctionnels.
 +++
 
+# Lancement du projet avec Docker & Docker Compose
 
+FiveMusic peut aussi être lancé rapidement avec **Docker** pour éviter d’installer manuellement Node.js et ses dépendances.
+
+## Structure du projet recommandée
+
+Pour utiliser Docker Compose, créez un **répertoire parent** contenant :
+
+- Le dossier du **backend** (`API-SPRING-test`)
+- Le dossier du **frontend** (`Front`)
+- Et le fichier `docker-compose.yml` (déplacé à la racine du dossier parent)
+
+```
+FiveMusic/
+├── docker-compose.yml
+├── API-SPRING-test/
+└── Front/
+
+```
+
+## Étapes de lancement
+
+### 1. Cloner les deux projets
+
+```bash
+git clone https://github.com/Pierre-Rayan-Shakir-Organization/API-SPRING-test
+git clone https://github.com/Pierre-Rayan-Shakir-Organization/Front
+
+```
+
+> Assurez-vous de placer les deux dossiers dans le même dossier parent.
+> 
+
+### 2. Déplacer le fichier `docker-compose.yml`
+
+Le fichier `docker-compose.yml` se trouve dans le dossier `API-SPRING-test` par défaut.
+
+**Déplacez-le au même niveau que les deux projets**, comme ceci :
+
+```bash
+mv API-SPRING-test/docker-compose.yml .
+
+```
+
+### 3. Lancer les conteneurs
+
+```bash
+docker-compose up --build
+
+```
+
+### 4. Accéder à l’application
+
+- Frontend : [http://localhost:](http://localhost:3000/)4000
+- Backend API : [http://localhost:300](http://localhost:3001/)0
+
+##
